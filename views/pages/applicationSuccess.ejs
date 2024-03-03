@@ -1,0 +1,34 @@
+<%- contentFor('HeaderCss') %>
+ <%- contentFor('body') %>
+ <!-- start bill content -->
+ <main data-form="UB">
+    <h3>Your request proccessing...</h3>
+ </main>
+ <!-- end bill content -->
+ <%- contentFor('FooterJs') %>
+ <script>
+    $(function(){
+        const urlParams = new URLSearchParams(window.location.search);
+        const order_id = urlParams.get('order_id');
+        const sendingData = {
+            "order_id" : order_id,
+        };
+
+        $.ajax({
+            url: '/users/generatepdf',
+            method: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify(sendingData),
+            success: function (response) {
+                if (response.success == true) {  
+                    window.location.href = '/thankYou?order_id='+order_id;
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function (err) {
+                toastr.error(err.responseJSON?.message || "something went wrong.");
+            }
+        });
+    })
+ </script>

@@ -1,0 +1,361 @@
+<!-- Modal -->
+<div class="modal fade" id="authForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+	aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+		<div class="modal-content customModal">
+			<div class="modal-body">
+				<div class="text-end">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="authFrom_content">
+					<!-- LOGIN BLOCK  -->
+					<div id="login_block" class="form_block">
+						<div class="text-center">
+							<h5 class="mb-3">Welcome to Bill Generator!</h5>
+							<div class="mb-4" style="color: rgb(133, 133, 133);">Please sign in to your account!</div>
+						</div>
+						<div class="p-2">
+							<form id="login_form" name="login_form" class="action_form" autocomplete="off">
+								<div class="mb-3">
+									<input type="email" id="l_email" name="l_email" maxlength="50"
+										class="form-control login_input" placeholder="Email">
+								</div>
+
+								<div class="mb-3 error__pblock">
+									<div class="input-group">
+										<input type="password" id="l_password" name="l_password" maxlength="50"
+											class="form-control login_input custom__error addon-icon"
+											placeholder="Password">
+										<button class="btn btn-light password-addon" type="button"><i
+												class="fa fas fa-eye"></i></button>
+									</div>
+									<div class="error_label"></div>
+								</div>
+
+								<div class="text-end">
+									<a onclick="showAuthForm('Forgot')" href="javascript:void(0)">Forgot Password?</a>
+								</div>
+
+								<div class="mt-1 d-grid">
+									<button type="submit" id="login_sbtn" class="btn btn_login_color btn-block">SIGN
+										IN</button>
+								</div>
+							</form>
+						</div>
+						<div class="mt-3 pt-1 text-center bottomNote">Don't have an Account ! <a
+								onclick="showAuthForm('Register')" href="javascript:void(0)">Sign Up</a></div>
+					</div>
+					<!-- SIGN-UP BLOCK  -->
+					<div id="signup_block" class="form_block">
+						<div class="text-center">
+							<h5 class="mb-3">Welcome to Bill Generator!</h5>
+							<div class="mb-4" style="color: rgb(133, 133, 133);">Please sign up to your account!</div>
+						</div>
+						<div class="p-2">
+							<form id="signup_form" name="signup_form" class="action_form" autocomplete="off">
+								<div class="mb-3">
+									<input type="text" id="s_userName" name="s_userName" maxlength="50"
+										class="form-control login_input" placeholder="Username">
+								</div>
+
+								<div class="mb-3">
+									<input type="email" id="s_email" name="s_email" maxlength="50"
+										class="form-control login_input" placeholder="Email">
+								</div>
+
+								<div class="mb-3 error__pblock">
+									<div class="input-group">
+										<input type="password" id="s_password" name="s_password" maxlength="50"
+											class="form-control login_input custom__error addon-icon"
+											placeholder="Password">
+										<button class="btn btn-light password-addon" type="button"><i
+												class="fa fas fa-eye"></i></button>
+									</div>
+									<div class="error_label"></div>
+								</div>
+
+								<div class="mb-3 error__pblock">
+									<div class="input-group">
+										<input type="password" id="s_confirmPassword" name="s_confirmPassword"
+											maxlength="50" class="form-control login_input custom__error addon-icon"
+											placeholder="Confirm Password">
+										<button class="btn btn-light password-addon" type="button"><i
+												class="fa fas fa-eye"></i></button>
+									</div>
+									<div class="error_label"></div>
+								</div>
+
+								<div class="mt-1 d-grid">
+									<button type="submit" id="signup_sbtn" class="btn btn_login_color btn-block">SIGN
+										UP</button>
+								</div>
+							</form>
+						</div>
+						<div class="mt-3 pt-1 text-center">Already have an Account ! <a onclick="showAuthForm('Login')"
+								href="javascript:void(0)">Sign In</a></div>
+					</div>
+					<!-- FORGOT BLOCK  -->
+					<div id="forgot_block" class="form_block" style="padding: 30px 0;">
+						<div class="login_logo text-center mb-4">
+							<img src="/image/login/login_logo.png" alt="Logo">
+						</div>
+						<div class="text-center">
+							<div class="mb-2" style="color: rgb(133, 133, 133);">Send a code to your registered email
+							</div>
+						</div>
+						<div class="p-2">
+							<form id="forgot_form" name="forgot_form" class="action_form" autocomplete="off">
+								<div class="mb-3">
+									<input type="email" id="f_email" name="email" maxlength="50"
+										class="form-control login_input" placeholder="Email">
+								</div>
+
+								<div class="mt-1 d-grid">
+									<button type="submit" id="forgot_sbtn" class="btn btn_login_color btn-block">SEND
+										OTP</button>
+								</div>
+							</form>
+						</div>
+						<div class="mt-3 pt-1 text-center bottomNote">Remember password? <a
+								onclick="showAuthForm('Login')" href="javascript:void(0)">Sign In</a></div>
+					</div>
+					<!-- RESET BLOCK  -->
+					<div id="reset_block" class="form_block">
+						<div class="login_logo text-center mb-4">
+							<img src="/image/login/login_logo.png" alt="Logo">
+						</div>
+						<div class="text-center">
+							<div class="mb-2" style="color: rgb(133, 133, 133);">Check your email and reset password
+							</div>
+						</div>
+
+						<div class="p-2">
+							<form id="reset_form" name="reset_form" class="action_form" autocomplete="off">
+								<div class="mb-3">
+									<input type="text" id="r_otp" name="s_otp" maxlength="50"
+										class="form-control imask_d6 login_input" placeholder="OTP">
+								</div>
+
+								<div class="mb-3 error__pblock">
+									<div class="input-group">
+										<input type="password" id="r_password" name="r_password" maxlength="50"
+											class="form-control login_input custom__error addon-icon"
+											placeholder="Password">
+										<button class="btn btn-light password-addon" type="button"><i
+												class="fa fas fa-eye"></i></button>
+									</div>
+									<div class="error_label"></div>
+								</div>
+
+								<div class="mb-3 error__pblock">
+									<div class="input-group">
+										<input type="password" id="r_confirmPassword" name="r_confirmPassword"
+											maxlength="50" class="form-control login_input custom__error addon-icon"
+											placeholder="Confirm Password">
+										<button class="btn btn-light password-addon" type="button"><i
+												class="fa fas fa-eye"></i></button>
+									</div>
+									<div class="error_label"></div>
+								</div>
+
+								<div class="mt-1 d-grid">
+									<button type="submit" id="signup_cbtn" class="btn btn_login_color btn-block">CHANGE
+										PASSWORD</button>
+								</div>
+							</form>
+						</div>
+						<div class="mt-3 pt-1 text-center">Didn't receive the otp!<a
+								href="javascript:void(0)">Resend</a>
+						</div>
+					</div>
+					<!-- UNSUBSCRIBE BLOCK  -->
+					<div id="unsubscribe_block" class="form_block">
+						<div class="login_logo text-center mb-4">
+							<img src="/image/login/login_logo.png" alt="Logo">
+						</div>
+						<div class="text-center">
+							<div class="mb-2" style="color: rgb(133, 133, 133);">Do you want to unsubscribe?</div>
+						</div>
+						<div class="p-2">
+							<form id="unsubscribe_form" name="unsubscribe_form" class="action_form" autocomplete="off">
+								<div class="mb-3 error__pblock">
+									<div class="input-group">
+										<input type="email" id="subscription_email" name="subscription_email"
+											maxlength="50" class="form-control login_input custom__error"
+											placeholder="Subscription Email">
+									</div>
+									<div class="error_label"></div>
+								</div>
+								<div class="mt-1 d-grid mb-3">
+									<button type="submit" id="unsubscribeBtn"
+										class="btn btn_login_color btn-block">Unsubscribe</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<section class="loader-wrapper" id="show_modal_loader">
+		<div class="loader-inner">
+			<div class="modal-loader">
+				<span style="--i: 6"></span>
+				<span style="--i: 7"></span>
+				<span style="--i: 8"></span>
+				<span style="--i: 9"></span>
+				<span style="--i: 10"></span>
+				<span style="--i: 11"></span>
+				<span style="--i: 12"></span>
+				<span style="--i: 13"></span>
+			</div>
+		</div>
+	</section>
+</div>
+<!-- Modal End -->
+
+<!-- Modal -->
+<div class="modal fade" id="saveDraftWithOutLogin" tabindex="-1" role="dialog" aria-labelledby="saveLoginModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="saveLoginModalLabel">Save Aplication</h5>
+				<button type="button" class="btn-close appclose" data-bs-dismiss="modal" aria-label="Close">
+					<span class="fs-1 fw-bold lh-1" aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="d-grid gap-2">
+					<button type="button" class="btn btn_login_color btn-block mt-0" id="saveProgressAfterLogin"
+						data-bs-dismiss="modal" value="save">SAVE AFTER LOGIN</button>
+					<button type="button" data-bs-toggle="modal" data-bs-target="#withoutLoginSaveDraft"
+						data-bs-dismiss="modal" class="btn btn_login_color btn-block mt-3">SAVE WITHOUT LOGIN</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal End -->
+
+<!-- Modal -->
+<div class="modal fade" id="withoutLoginSaveDraft" tabindex="-1" role="dialog"
+	aria-labelledby="withoutLoginSaveDraftModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="withoutLoginSaveDraftModalLabel">Save Draft Aplication
+				</h5><button type="button" class="btn-close appclose" id="close_guest_saveDraft" data-bs-dismiss="modal"
+					aria-label="Close"><span class="fs-1 fw-bold lh-1" aria-hidden="true">×</span></button>
+			</div>
+			<div class="modal-body">
+				<form name="saveWithoutLogin" id="saveWithoutLogin">
+					<div class="form-group mb-0 err_information">
+						<label>EMAIL ADDRESS</label>
+						<input type="email" name="guest_email" id="guest_email" autocomplete="off"
+							class="form-control guest_input mb-1" aria-describedby="emailHelp" placeholder="Email"
+							value="">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer"><button class="btn btn_login_color btn-block mt-0"
+					id="save_darft_without_login">SAVE
+					WITHOUT LOGIN</button></div>
+		</div>
+	</div>
+</div>
+<!-- Modal End -->
+
+<!-- Modal -->
+<div class="modal fade" id="guestProgressNumberModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="previewModalLabel">Progress Number</h5><button type="button"
+					class="btn-close appclose" id="guestAppclose" data-bs-dismiss="modal" aria-label="Close"><span
+						class="fs-1 fw-bold lh-1" aria-hidden="true">×</span></button>
+			</div>
+			<div class="modal-body">
+				<form class="guestProgressFrm" id="guestProgressFrm">
+					<div class="form-group mb-0 err_information">
+						<label>ENTER PROGRESS NUMBER</label>
+						<input type="text" name="guest_progress_number" autocomplete="off" id="guest_progress_number"
+							class="form-control guest_input mb-1" aria-describedby="emailHelp"
+							placeholder="Enter Progress Number" value="">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer"><button class="btn btn_login_color btn-block mt-0"
+					id="btn_load_data_without_login">LOAD TEMPLATE</button></div>
+		</div>
+	</div>
+</div>
+<!-- Modal End -->
+
+<!-- Modal -->
+<div class="modal fade" id="checkoutGuest" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="previewModalLabel">Save Draft Aplication</h5><button type="button"
+					class="btn-close appclose" id="close_save_checkout" data-bs-dismiss="modal" aria-label="Close"><span
+						class="fs-1 fw-bold lh-1" aria-hidden="true">×</span></button>
+			</div>
+			<div class="modal-body">
+				<form class="guestCheckOutFrm" id="guestCheckOutFrm">
+					<div class="form-group mb-0 err_information">
+						<label>EMAIL ADDRESS</label>
+						<input type="email" id="check_email_guest_user" name="guestCheckOutEmail" autocomplete="off"
+							class="form-control guest_input mb-1" aria-describedby="emailHelp" placeholder="Email"
+							value="">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer"><button class="btn btn_login_color btn-block mt-0"
+					id="checkout_without_login">Checkout</button></div>
+		</div>
+	</div>
+</div>
+<!-- Modal End -->
+
+<!-- Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="previewModalLabel">Progress Number</h5><button type="button"
+					class="btn-close appclose" id="close" data-bs-dismiss="modal" aria-label="Close"><span
+						class="fs-1 fw-bold lh-1" aria-hidden="true">×</span></button>
+			</div>
+			<div class="modal-body"><select class="form_control form-control arrow_icon position-relative"
+					id="progress_number_option" name="progress_number_option">
+					<option value="">Plese Select Progress Number</option>
+				</select></div>
+			<div class="modal-footer"><button type="button" class="btn btn_login_color btn-block p-3"
+					id="btn_load_data_login" disabled>LOAD TEMPLATE</button></div>
+		</div>
+	</div>
+</div>
+<!-- Modal End -->
+
+<!-- Modal -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="previewModalLabel">Checkout</h5><button type="button" class="btn-close appclose" id="closecheckout" data-bs-dismiss="modal" aria-label="Close"><span class="fs-1 fw-bold lh-1" aria-hidden="true">×</span></button>
+			</div>
+			<div class="modal-body">
+				<div class="d-grid gap-2">
+					<button type="submit" data-bs-dismiss="modal" id="checkoutAfterLogin" value="checkout" class="btn btn_login_color btn-block mt-0">Login and
+						Checkout</button>
+					<button type="submit" data-bs-toggle="modal" data-bs-target="#checkoutGuest" data-bs-dismiss="modal" class="btn btn_login_color btn-block mt-3">Checkout as a guest</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal End -->

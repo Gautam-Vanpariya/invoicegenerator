@@ -1,0 +1,52 @@
+<%- contentFor('HeaderCss') %>
+
+<%- contentFor('body') %>
+<main>
+   <section class="review_hero d-flex align-items-center">
+      <div class="container">
+         <h2 class="text-capitalize text-white text-center font-size fw-bold">Simple, Our Best Straight forward OFFERS!</h2>
+      </div>
+   </section>
+   <section class="price_sec sec-padding">
+      <div class="container">
+         <div class="row" id="pricing_container">
+            <% if(typeof priceOffer!=="undefined" && priceOffer.length> 0) {%>
+               <% for(var i=0 ; i < priceOffer.length ; i++){%>
+                  <div class="col-md-6 col-lg-4 mb-4">
+                     <div class="card h-100 price_list">
+                        <div class="price_cat text-capitalize text-center text-white">
+                           <h6><%- priceOffer[i]['title']%></h6>
+                        </div>
+                      
+                     <div class="price_para">
+                        <div class=" price_plan text-center">
+                           <% if(priceOffer[i]['price'] != "" && priceOffer[i]['price'] != "Coming Soon..." && priceOffer[i]['price'] != "Free" ) {%> <h6 class="price">$<%- priceOffer[i]['price']%> <span>/each</span></h6><%}%>
+                           <% if(priceOffer[i]['price'] != "" && priceOffer[i]['price'] == "Coming Soon..." && priceOffer[i]['price'] != "Free" ) {%> <h6 class="coming_soon ">Coming Soon...<span></span></h6><%}%>
+                           <% if(priceOffer[i]['price'] != "" && priceOffer[i]['price'] == "Free" && priceOffer[i]['price'] != "Coming Soon..." ) {%> <h6 class="price">Free <span></span></h6><%}%>
+                        </div>
+                           <div class="para h-100">
+                              <% for(var j=0 ; j < priceOffer[i]['description'].length ; j++){%>
+                                 <p class="d-flex align-items-center text-capitalize "> <img src="/image/pricing/Arrow.png" alt="arrow"><%-priceOffer[i]['description'][j]%></p>
+                              <%}%>
+                           </div>
+                     </div>
+                     <div class="price_select">
+                        <% if(priceOffer[i]['page_url'] != '' ) {%>
+                           <a class="choose_plan d-flex text-white justify-content-between" href="<%- priceOffer[i]['page_url']%>">
+                        <% }else{%>
+                           <a class="choose_plan d-flex text-white justify-content-between" href="javascript:void(0);">
+                        <% }%>
+                           <div class="d-flex align-items-center choose_plan_content ms-3">Create Document</div>
+                           <div class="btn arrow_img d-flex align-items-center"><img src="/image/pricing/down-arrow.png" alt="arrow"></div>
+                           </a>
+                     </div>
+                     </div>
+                  </div>
+               <%}%>
+            <%}%>
+         </div>
+      </div>
+   </section>
+</main>
+<!-- end account-pages -->    
+<%- contentFor('FooterJs') %>

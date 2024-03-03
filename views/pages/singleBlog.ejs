@@ -1,0 +1,51 @@
+<%- contentFor('HeaderCss') %>
+
+    <%- contentFor('body') %>
+
+        <main>
+            <section class="sec-padding single_blog">
+                <div class="container">
+                    <div class="d-flex align-items-start flex-wrap justify-content-between gap_20">
+                        <div class="blog_part">
+                            <img src="<%- (blog) ? blog['image'] : '' %>" alt="blog" />
+                            <div class="blog_content">
+                                <h1 class="fw-bold mb-0"><%- (blog) ? blog['title'] : '' %></h1>
+                                <p class="date">
+                                    <span class="me-md-2 me-1"><%- moment(blog['createdAt']).format('MMMM D, YYYY') %></span>
+                                </p>
+                                <%- (blog) ? blog['content'] : '' %>
+                            </div>
+                        </div>
+                        <div class="sidebar">
+                            <div class="short_bill_label p-2 position-relative">
+                                <div class="label_inner">
+                                    <img src="/image/footer/footer_logo.png" alt="Bill Generator" />
+                                    <p class="border-top border-top-white text-capitalize">Ready to get started? Explore our user-friendly platform and create the financial documents you need in no time.</p>
+                                    <a href="/#make_bill" class="read_more_btn btn mt-0">Make Your Bill<span>></span></a>
+                                </div>
+                            </div>
+                            <div class="recent_post">
+                                <h6 class="mb-3 text-uppercase">Recent Blog</h6>
+                                <% if(typeof recent_blog!=="undefined" && recent_blog.length> 0) {%>
+                                    <% for(var i=0 ; i < recent_blog.length ; i++){%>
+                                        <div class="blog_item d-flex gap_20">
+                                            <img src="<%- recent_blog[i]['image']%>" alt="Desk" />
+                                            <div class="blog_content">
+                                                <h3 class="mb-0 text-capitalize"><%- recent_blog[i]['title']%></h3>
+                                                <p class="date">
+                                                    <span class="fw-normal"><%- moment(recent_blog[i]['createdAt']).format('MMMM D, YYYY') %></span>
+                                                </p>
+                                                <a href="/blog/<%- recent_blog[i]['slug'] %>" class="text-capitalize fw-normal">Read more ></a>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                <% } %>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- end account-pages -->
+        <%- contentFor('FooterJs') %>

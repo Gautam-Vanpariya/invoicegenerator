@@ -1,0 +1,60 @@
+<%- contentFor('HeaderCss') %>
+
+	<%- contentFor('body') %>
+		<div class="container-fluid px-4">
+			<!-- Page Heading -->
+			<div class="d-flex align-items-center mb-4 mb-md-5">
+				<h1 class="h3 mb-0 text-gray-800 fw-bold">Dashboard</h1>
+			</div>
+
+			<!-- Content Row -->
+			<div class="row dashboard-card">
+				<div class="col-xl-4 col-md-6 mb-4 mb-md-5">
+					<div class="card border-left-info rounded-4 h-100">
+						<div class="card-body">
+							<div class="row no-gutters align-items-center h-100">
+								<div class="col-auto">
+									<div
+										class="icon-lg bg-gradient-dark shadow-dark border-radius-xl mx-sm-2 card-icon text-white">
+										<i class="fas fa-user"></i>
+									</div>
+									<!-- <img src="/image/icons-cheese-dark.png" class="me-2 card-img" width="45" alt="cheese"> -->
+								</div>
+								<div class="col me-2">
+									<p class="fs-sm-5 mb-0">All Users</p>
+									<p class="fs-3 mb-0 fw-bold mb-0" id="allusers">0</p>
+									<hr>
+									<p class="mb-0"><span class="text-yellow fw-bold" id="adminUser">0 </span> Admin
+										User</p>
+									<p class="mb-0"><span class="text-yellow fw-bold" id="customerUser">0 </span>
+										Customer User</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- end account-pages -->
+
+
+
+			<!-- Logout Modal-->
+			<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel"
+				style="display: none;" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header bg-light">
+							<h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">Select "Logout" below if you are ready to end your current session.
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary rounded-6" type="button"
+								data-bs-dismiss="modal">Cancel</button>
+							<a class="btn btn-primary rounded-6" href="/admin/auth/logout">Logout</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<%- contentFor('FooterJs') %>

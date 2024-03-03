@@ -1,0 +1,39 @@
+<%- contentFor('HeaderCss') %>
+
+<%- contentFor('body') %>
+
+<div class="container-fluid px-4">
+    <!-- Page Heading -->
+    <div class="d-flex align-items-center mb-4 mb-md-5">
+       <h1 class="h3 mb-0 text-gray-800 fw-bold">List of Users</h1>
+    </div>
+    <!-- Content Row -->
+    <div class="row">
+       <div class="col-12">
+          <div class="card user-table">
+             <div class="card-body">
+                <table id="user_table" class="table table-bordered table-striped">
+                   <thead>
+                      <tr>
+                         <td>User Id</td>
+                         <td>User Name</td>
+                         <td>Email Id</td>
+                         <td>Address 1</td>
+                         <td>Address 2</td>
+                         <td>City</td>
+                         <td>Zipcode</td>
+                         <td>State</td>
+                         <td>Country</td>
+                         <td>Apply UserRole</td>
+                         <td>Action</td>
+                      </tr>
+                   </thead>
+                   <tbody></tbody>
+                </table>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+
+<%- contentFor('FooterJs') %>

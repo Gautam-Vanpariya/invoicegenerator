@@ -1,0 +1,29 @@
+<div class="bill_part position-relative">
+	<div class="bill_title rounded-top position-absolute">
+		<h3 class="text-capitalize text-white text-center">Fill Your Details</h3>
+	</div>
+
+	<div class="all_bill">
+		<form class="form-font-12">
+			<div id="step_1_div" class="information">
+				<div class="row align-items-center">
+					<div class="form-group position-relative col col-lg-3 m-3">
+						<select id="inputState" class="form-control form_control arrow_icon" name="state">
+							<option value="" selected></option>
+							<% for(let i=0; i<stateList.length;i++){%>
+							<option value="<%=stateList[i].abbr%>"><%=stateList[i].name%></option>
+							<% } %>
+						</select>
+						<label for="inputState" class="position-absolute form-label">Select State <span>*</span></label>
+					</div>
+					<div class="form-group col">
+						<button type="button" class="btn primary-btn px-4 py-2" id="create_document_btn">Create My Document</button>
+					</div>
+					<div class="form-group col">
+						<button type="button" class="btn primary-btn px-4 py-2" id="load_job_application">Load Template</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

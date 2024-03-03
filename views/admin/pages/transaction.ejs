@@ -1,0 +1,75 @@
+ <%- contentFor('HeaderCss') %>
+
+  <%- contentFor('body') %>
+  <div class="container-fluid px-4">
+    <!-- Page Heading -->
+    <div class="d-flex align-items-center mb-4 mb-md-5">
+      <h1 class="h3 mb-0 text-gray-800 fw-bold">List of Transaction</h1>
+    </div>
+    <div class="row">
+      <div class="col-12">
+          <div class="card user-table">
+            <div class="card-body">
+               <div class="d-lg-flex text-center">
+                  <div>
+                     <label class="fw-normal text-start text-nowrap">Show 
+                     <select id="custom_entries" class="form-select form-select-sm w-auto d-inline-block">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="-1">All</option>
+                     </select>
+                     entries
+                     </label>
+                  </div>
+                  <div class="ms-auto d-lg-flex">
+                     <label for="search" class="fw-normal text-start text-nowrap">Search:
+                        <input type="text" id="custom_search" class="form-control form-control-sm h-100 w-auto d-inline-block">
+                     </label>
+                     <button type="button" class="btn btn-primary btn-sm ms-1 text-dark" id="filterButton" > <i class="fas fa-filter"></i></button>
+                  </div>
+               </div>
+               <div id="filterSection" class="position-absolute ms-auto bg-white float-end shadow-lg p-3 rounded-6" style="z-index: 999; right: 16px; top: 55px; width: 300px; display: none;">
+                  <label for="paymentStatus">Filter By Payment Status:</label>
+                  <div class="py-3">
+                      <select id="payment_status_filter" class="form-select form-select-sm">
+                         <option value="">All</option>
+                         <option value="Paid">Paid</option>
+                         <option value="Pending">Pending</option>
+                         <option value="Free">Free</option>
+                         <option value="Cancel">Cancel</option>
+                      </select>
+                  </div> 
+                  <button type="button" id="apply_filter" class="btn btn-outline-primary rounded-6 me-2"> Apply</button>
+                  <button type="button" id="clear_filter" class="btn btn-outline-primary rounded-6 me-2"> clear Filter</button>
+               </div>
+                
+                <table id="transaction_table" class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                        <td>Id</td>
+                        <td>User Type</td>
+                        <td>Email</td>
+                        <td>GateWay</td>
+                        <td>Checkout Id</td>
+                        <td>Used Coupon</td>
+                        <td>Amount</td>
+                        <td>Payment Status</td>
+                        <td>Pdf Response</td>
+                        <td>Email Response</td>                        
+                        <td>User FormData</td>
+                        <td>Transaction Type</td>
+                        <td>Transaction Date</td>
+                        <td>Action</td>
+                      </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <%- contentFor('FooterJs') %>

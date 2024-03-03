@@ -1,0 +1,91 @@
+<%- contentFor('HeaderCss') %>
+
+ <%- contentFor('body') %>
+
+  <div class="container-fluid px-4">
+    <!-- Page Heading -->
+    <div class="d-flex align-items-center mb-4 mb-md-5">
+      <h1 class="h3 mb-0 text-gray-800 fw-bold">List of Review</h1>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card contestWrapper mb-4">
+          <div class="card-header bg-light border-0">
+            <button type="button" id="add_pricingOffer" class="btn btn-outline-primary rounded-6 me-2" data-bs-toggle="modal" data-bs-target="#addNewReviewModal">
+              <i class="fas fa-plus-square"></i>&nbsp; Add Review</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card user-table">
+          <div class="card-body">
+            <table id="review_table" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <td>Id</td>
+                  <td>User Name</td>
+                  <td>Content</td>
+                  <td>Created</td>
+                  <td>Action</td>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+        
+
+  </div>
+
+  <!-- Add New pricing Offer Modal -->
+  <div class="modal fade" id="addNewReviewModal" tabindex="-1" aria-labelledby="addNewReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-light">
+          <h5 class="modal-title" id="addReviewModalLongLabel">Add New Review</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="addReviewForm" class="form-horizontal">
+          <div class="modal-body">
+            <div class="card-body">
+              <div class="row form-group">
+                <label for="addFname" class="col-sm-4 col-form-label">First Name</label>
+                <div class="col-sm-8">
+                  <input type="input" name="fname" id="addFname" class="form-control" value="" placeholder="Enter first name" />
+                </div>
+              </div>
+          
+              <div class="row form-group">
+                <label for="addLname" class="col-sm-4 col-form-label">Last Name</label>
+                <div class="col-sm-8">
+                  <input type="input" name="lname" id="addLname" class="form-control" value="" placeholder="Enter last name" />
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <label for="addReview" class="col-sm-4 col-form-label">Content</label>
+                <div class="col-sm-8">
+                    <textarea id="addReview" name="review" rows="5" cols="35" placeholder="Enter content" ></textarea>
+                </div>
+              </div>
+            <!-- <button onclick="newAddPoints();" type="button" class="btn btn-primary btn-md"><i class="bx bx-plus font-size-16 align-middle me-2"></i>New Add Point</button> -->
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary rounded-6" type="button" data-bs-dismiss="modal">Close</button>
+            <button type="click" class="btn btn-success rounded-6" id="addReviews">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <input type="hidden" name="id" id="id" />
+  <%- contentFor('FooterJs') %>
+</body>
+</html>

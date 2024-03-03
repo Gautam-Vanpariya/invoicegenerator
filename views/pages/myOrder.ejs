@@ -1,0 +1,157 @@
+<%- contentFor('HeaderCss') %>
+<link rel="stylesheet" type="text/css" href="/plugins/daterangepicker/daterangepicker.css" />
+    <style>
+         .datepicker-input {
+            border-radius: 0;
+            background-color: #f4f4f4 !important;
+            border: 1px solid #f4f4f4;
+            padding: 12px 19px;
+            height: auto;
+        } 
+        .btn-yellow {
+            background-color: #F0C000;
+            color: #000;
+            border-radius: 6px;
+            font-weight: 500;
+            padding: 10px 30px;
+        }
+        .btn-yellow:hover, .btn-yellow:focus {
+            background-color: #ffd427;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .btn-icon {
+            color: #fff;
+            padding: 6px 15px;
+        }
+        .datepicker-wrapper {
+            display: inline-block;
+            border: 0;
+            width: 100%;
+        }
+        .arrow_icon {
+            background-image: url(/image/review/Vector.png);
+            background-repeat: no-repeat;
+            background-position: center right 10px;
+        }
+        iframe {
+            border: 1px solid #343a40;
+            min-height: 250px;
+            height: 100%;
+            width: 100%;
+        }
+        .page-link {
+            color: #0F1B2D;
+        }
+        .page-item.active .page-link {
+            background-color: #0F1B2D;
+            border-color: #0F1B2D;
+        }
+        .page-link:hover {
+            color: #0F1B2D;
+            background-color: #f5f5f5;
+        }
+        .page-link:focus {
+            box-shadow: none;
+        }
+        .order-panal .content {
+            color: #000;
+            background: #F7F7F7;
+            border: 1px solid #D8D8D8;
+            border-radius: 0;
+            margin: 0 auto;
+            padding: 16px;
+            line-height: 30px;
+        }
+    </style>
+    <%- contentFor('body') %>
+        <!-- start bill content -->
+        <main>
+            <section class="review_hero d-flex align-items-center">
+                <div class="container">
+                    <h2 class="text-capitalize text-white text-center font-size font-weight-bold">My Order</h2>
+                </div>
+            </section>
+
+            <section class="myorder_section d-flex align-items-center py-5">
+                <div class="container">
+                    <div class='row date-picker-inner d-flex align-items-center mt-3'>
+                        <div class="col-sm pt-sm-0 pt-2 datepicker-wrapper">
+                            <input type="text" name="start_date" placeholder="Start Date" value="<%= new Date(new Date().getTime() - (10 * 24 * 60 * 60 * 1000)).toLocaleDateString('en-GB', { month: '2-digit', day: '2-digit', year: 'numeric' }) %>" class="form-control datepicker-input"/>      
+                        </div>
+                        <div class="col-sm pt-sm-0 pt-2 datepicker-wrapper">
+                            <input type="text" name="end_date" placeholder="End Date" value="<%= new Date().toLocaleDateString('en-GB', { month: '2-digit', day: '2-digit', year: 'numeric' }) %>" class="form-control datepicker-input"/>  
+                        </div>
+                        <div class="col pt-sm-0 pt-2 " >
+                            <select class="form-control form_control arrow_icon" name="document_type" id="document_type">
+                                <option value="All" selected>All</option>
+                                <% if(documentType) {
+                                  for (const [key, data] of Object.entries(documentType)) { %>
+                                    <option value="<%- data %>"><%- data %></option>
+                                <% }
+                                } %>
+                              </select>
+                        </div>
+                        <div class="col-auto pt-sm-0 pt-2">
+                        <button type="button" class="btn btn-yellow" id="btn-submit" >Submit</button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="start_date"  value="<%= new Date(new Date().getTime() - (10 * 24 * 60 * 60 * 1000)) %>" />
+                    <input type="hidden" id="end_date" value="<%= new Date() %>" />
+
+                    <div id="orderPanal" class="order-panal my-5">
+                        <div class='row content' id="myOrder_content">
+                        </div>
+                    </div>
+
+                    <nav aria-label="page-navigation" class='pagination-wrap'>
+                        <ul class="pagination justify-content-center">
+                             <!-- <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)" aria-label="Prev">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Prev</span>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0)">6</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>  -->
+                        </ul>
+                    </nav>
+                </div>
+            </section> 
+            <section class="loader-wrapper" id="show_loader">
+                <div class="loader-inner">
+                    <div class="loader">
+                        <span style="--i: 6"></span>
+                        <span style="--i: 7"></span>
+                        <span style="--i: 8"></span>
+                        <span style="--i: 9"></span>
+                        <span style="--i: 10"></span>
+                        <span style="--i: 11"></span>
+                        <span style="--i: 12"></span>
+                        <span style="--i: 13"></span>
+                        <span style="--i: 14"></span>
+                        <span style="--i: 15"></span>
+                        <span style="--i: 16"></span>
+                        <span style="--i: 17"></span>
+                        <span style="--i: 18"></span>
+                        <span style="--i: 19"></span>
+                        <span style="--i: 20"></span>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- end bill content -->
+        <%- contentFor('FooterJs') %>
+        <script src="/plugins/daterangepicker/daterangepicker.js"></script>
+        <script src="/javascript/myOrder.js"></script>

@@ -1,0 +1,838 @@
+<%- contentFor('HeaderCss') %>
+	<link rel="stylesheet" type="text/css" href="/plugins/daterangepicker/daterangepicker.css" />
+	<%- contentFor('body') %>
+		<!-- start bill content -->
+		<main data-form="Invoice">
+			<section class="review_hero d-flex align-items-center">
+				<div class="container">
+					<h1 class="text-capitalize text-white text-center font-size fw-bold">Invoice</h1>
+				</div>
+			</section>
+			<section class="container">
+				<div class="bill_part position-relative">
+					<div class="bill_title rounded-top ">
+						<h3 class="text-capitalize text-white text-center">Invoice Information</h3>
+					</div>
+
+					<div class="all_bill px-4 pb-4 bill_section">
+						<div class="btn-wrapper save_load_btn">
+							<div class="row">
+								<div class="col-md-6 col-sm-4 mb-1 "></div>
+								<div class="col-sm-4 col-md-3 mb-1 ">
+									<button type="button" class="btn outline-btn btn-block px-4 w-100 float-end"
+										id="preview_invoice">PREVIEW</button>
+								</div>
+								<div class="col-sm-4 col-md-3 mb-1">
+									<button type="button" class="btn primary-btn btn-block px-4 w-100 float-end b"
+										id="edit_invoice">EDIT</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="btn-wrapper save_load_btn">
+						<div class="row g-2">
+							<div class="col col-md-4 mb-1">
+								<button type="button" class="btn primary-btn btn-block p-3 w-100 save_draft" disabled
+									id="save_draft">SAVE TEMPLATE</button>
+							</div>
+							<div class="col col-md-4 mb-1">
+								<button type="button" class="btn primary-btn btn-block p-3 w-100 load_template"
+									data-document="Invoice" id="load_template">LOAD TEMPLATE</button>
+							</div>
+							<div class="col col-md-4 mb-1">
+								<button type="button" class="btn primary-btn btn-block p-3 w-100 checkOut"
+									id="checkOut">CHECKOUT</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="container invoice_edit_section">
+				<div class="bill_preview" id="form_info">
+					<div class="bill_section bill_preview_title text-capitalize text-white text-center ">Your Invoice
+						Form</div>
+					<form class="form-font-12 p-4" id="invoice_form">
+						<div class="bg-white border border-1 border-blue p-1 err_information">
+							<div class="row g-2 mb-4 p-1">
+								<!-- <div class="col">
+                            <div class="p-0 mb-1">
+                                <select class="form-control form_control border-blue" id="company_name" name="company_name">
+                                    <% companyList.forEach(function(company) { %>
+                                        <option value="<%- company.company_name %>"><%- company.company_name %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div> -->
+								<div class="col">
+									<div class="p-0 mb-1 position-relative">
+										<input type="text" class="form-control form_control border-blue"
+											id="invoice_title" name="invoice_title" value="Bhavy Computer">
+									</div>
+								</div>
+								<div class="col-md">
+									<div
+										class="col-md-8 col-12 bill_logo invoice_logo border-dark text-center err_information mb-2 me-0  float-end">
+										<input type="file" id="upload" class="custom__error" name="file"
+											accept="image/* ">
+										<div class="invoice_upload_logo">
+											<label for="upload" class="d-block mb-0 position-relative">
+												<h2 class="text-uppercase text-center mt-3">Add Your Logo</h2>
+												<h6 class="mb-3">(Optional)</h6>
+											</label>
+										</div>
+										<div class="drop_invoice_logo" style="display: none;">
+											<label for="upload" class="d-block mb-0 position-relative">
+												<img src="" alt="invoice_logo"
+													class="upload_invoice_logo invoice_logo_img" height="80"
+													width="170" />
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row g-2">
+								<div class="col-md">
+									<div class="p-1 border border-bottom-0 input-filled">
+										<label class="form-label"><strong>FROM</strong></label>
+										<div class="p-0 mb-1 position-relative">
+											<label class=" form-label floating-label">Name </label>
+											<input type="text" name="from_name" value="Bhavy Computer" id="from_name"
+												maxlength="30"
+												class="form-control form_control border-blue require-field"
+												data-val="Company Name">
+										</div>
+										<div class="p-0 mb-1 position-relative">
+											<label class=" form-label floating-label">GST Number </label>
+											<input type="text" name="from_gst_number" value="12345678901"
+												id="from_gst_number" maxlength="30"
+												class="form-control form_control border-blue require-field"
+												data-val="GST Number" disabled>
+										</div>
+										<div class="p-0 mb-1 position-relative">
+											<label class=" form-label floating-label">Email</label>
+											<input type="text" name="from_email" value="bhavycomputer@gmail.com"
+												id="from_email" maxlength="200"
+												class="form-control form_control border-blue require-field"
+												data-val="email@gmail.com">
+										</div>
+										<div class="p-0 mb-1 position-relative">
+											<label class=" form-label floating-label">Street Address
+												1</label>
+											<input type="text" name="from_street_address_1"
+												value="Bhilad, Gujarat 396105" id="from_street_address_1"
+												maxlength="200"
+												class="form-control form_control border-blue require-field"
+												data-val="Company address 1">
+										</div>
+										<div class="p-0 mb-1 position-relative">
+											<label class=" form-label floating-label">Street Address
+												2</label>
+											<input type="text" name="from_street_address_2" value="Vapi"
+												id="from_street_address_2" maxlength="200"
+												class="form-control form_control border-blue"
+												data-val="Company address 2">
+										</div>
+										<div class="row g-2 pt-1">
+											<div class="col-sm  mt-1">
+												<div class="p-0 position-relative">
+													<label class=" form-label floating-label">City
+													</label>
+													<input type="text" name="from_city" value="Vapi" id="from_city"
+														maxlength="30"
+														class="form-control form_control border-blue require-field"
+														data-val="Company City">
+												</div>
+											</div>
+											<div class="col-sm mt-1">
+												<div class="p-0 position-relative">
+													<label class=" form-label floating-label">State
+													</label>
+													<input type="text" name="from_state" value="Gujarat" id="from_state"
+														maxlength="30"
+														class="form-control form_control border-blue require-field">
+												</div>
+											</div>
+											<div class="col-sm mt-1">
+												<div class="p-0  mb-1  position-relative">
+													<label class=" form-label floating-label">Zip code
+													</label>
+													<input type="text" name="from_zip_code" value="396105"
+														id="from_zip_code"
+														class="form-control imask_d6 form_control border-blue require-field"
+														maxlength="5" data-val="12345">
+												</div>
+											</div>
+										</div>
+
+										<div class="row g-2 pt-1">
+											<div class="col-sm mt-1">
+												<div class="p-0 position-relative">
+													<label class=" form-label floating-label">Phone
+														Number </label>
+													<input type="number" name="from_phone" value="9879542139"
+														id="from_phone" maxlength="10"
+														class="form-control form_control border-blue imask_d9 require-field"
+														data-val="(123) 102 1000">
+												</div>
+											</div>
+											<div class="col-sm mt-1">
+												<div class="p-0 position-relative">
+													<label class=" form-label floating-label">Business
+														Number </label>
+													<input type="number" name="from_business_number" value="9879542139"
+														id="business_number" maxlength="10"
+														class="form-control form_control border-blue imask_ssn "
+														data-val="123-102-2023">
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="p-1 border border-bottom-0">
+										<label class="form-label"><strong>Number</strong></label>
+										<input type="text" name="from_number" id="from_number" maxlength="30"
+											class="form-control form_control border-blue require-field">
+									</div>
+
+									<div class="p-1 border border-bottom-0">
+										<label class="form-label"><strong>Date</strong></label>
+										<input type="text" name="from_date" id="from_date" maxlength="30"
+											class="form-control form_control border-blue">
+									</div>
+
+									<div class="p-1 border border-bottom-0">
+										<label class="form-label"><strong>Terms</strong></label>
+										<select class="form-control form_control arrow_icon border-blue select-control"
+											name="from_terms" id="invoice_terms">
+											<option value="none" selected="">None</option>
+											<option value="custom">Custom</option>
+											<option value="on_receipt">On Receipt</option>
+											<option value="Next Day.">Next Day</option>
+											<option value="2 Days">2 Days</option>
+											<option value="3 Days">3 Days</option>
+											<option value="4 Days">4 Days</option>
+											<option value="5 Days">5 Days</option>
+											<option value="6 Days">6 Days</option>
+											<option value="7 Days">7 Days</option>
+											<option value="10 Days">10 Days</option>
+											<option value="14 Days">14 Days</option>
+											<option value="21 Days">21 Days</option>
+											<option value="30 Days">30 Days</option>
+											<option value="45 Days">45 Days</option>
+											<option value="60 Days">60 Days</option>
+											<option value="90 Days">90 Days</option>
+											<option value="120 Days">120 Days</option>
+											<option value="180 Days">180 Days</option>
+											<option value="365 Days">365 Days</option>
+										</select>
+									</div>
+
+									<div class="p-1 border border-bottom-0 d-none due_div">
+										<label class="form-label"><strong>Due</strong></label>
+										<input type="text" name="from_due_date" id="from_due_date" maxlength="30"
+											class="form-control form_control border-blue" disabled>
+									</div>
+
+								</div>
+								<div class="col">
+									<div class="p-1 border border-bottom-0 input-filled">
+										<label class="form-label"><strong>Bill To</strong></label>
+										<!-- <div class="p-0 mb-1 position-relative">
+											<label class=" form-label floating-label">Name </label>
+											<input type="text" name="to_name" id="to_name" maxlength="30"
+												class="form-control form_control border-blue require-field"
+												data-val="Client name">
+										</div> -->
+										<div class="col">
+											<div class="wrapped-static-field mb-3">
+												<select class="form-control form_control border-blue" id="to_name"
+													name="to_name">
+													<option value="" selected>Select Company</option>
+													<% companyList.forEach(function(company) { %>
+														<option value="<%- company.company_name %>"><%-
+																company.company_name %></option>
+														<% }); %>
+												</select>
+											</div>
+										</div>
+										<div class="p-0 mb-1 position-relative">
+											<label class=" form-label floating-label">Email</label>
+											<input type="text" name="to_email" id="to_email" maxlength="200"
+												class="form-control form_control border-blue require-field"
+												data-val="email@gmail.com">
+										</div>
+										<div class="p-0 mb-1 position-relative">
+											<label class=" form-label floating-label">GST number</label>
+											<input type="text" name="to_gst_number" id="to_gst_number" maxlength="200"
+												class="form-control form_control border-blue require-field" data-val=""
+												disabled>
+										</div>
+										<div class="p-0 mb-1 position-relative">
+											<label class=" form-label floating-label">Street Address
+												1</label>
+											<input type="text" name="to_street_address_1" id="to_street_address_1"
+												maxlength="200"
+												class="form-control form_control border-blue require-field"
+												data-val="Client address 1">
+										</div>
+										<div class="p-0 mb-1 position-relative">
+											<label class=" form-label floating-label">Street Address
+												2</label>
+											<input type="text" name="to_street_address_2" id="to_street_address_2"
+												maxlength="200" class="form-control form_control border-blue"
+												data-val="Client address 2">
+										</div>
+										<div class="row g-2 pt-1">
+											<div class="col-sm mt-1">
+												<div class="p-0 position-relative">
+													<label class=" form-label floating-label">City
+													</label>
+													<input type="text" name="to_city" id="to_city" maxlength="30"
+														class="form-control form_control border-blue require-field"
+														data-val="Client City">
+												</div>
+											</div>
+											<div class="col-sm mt-1">
+												<div class="p-0 position-relative">
+													<label class=" form-label floating-label">State
+													</label>
+													<input type="text" name="to_state" value="Gujarat" id="to_state"
+														maxlength="30"
+														class="form-control form_control border-blue require-field">
+												</div>
+											</div>
+											<div class="col-sm mt-1">
+												<div class="p-0 mb-1 position-relative">
+													<label class=" form-label floating-label">Zip code
+													</label>
+													<input type="text" name="to_zip_code" id="to_zip_code"
+														class="form-control imask_d6 form_control border-blue require-field"
+														maxlength="5" data-val="12345">
+												</div>
+											</div>
+										</div>
+
+										<div class="row g-2">
+											<div class="col">
+												<div class="p-0 position-relative">
+													<label class=" form-label floating-label">Phone
+														Number </label>
+													<input type="number" name="to_phone" id="to_phone" maxlength="30"
+														class="form-control form_control border-blue imask_d9 require-field"
+														data-val="(123) 102 0202">
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="p-1 border border-bottom-0">
+										<label class="form-label"><strong>Tax Type</strong></label>
+										<select class="form-control form_control arrow_icon border-blue select-control"
+											name="tax_type" id="tax_type">
+											<option value="on total" selected="">On Total</option>
+											<option value="deducted">Deducted</option>
+											<option value="per item">Per Item</option>
+											<option value="none">None</option>
+										</select>
+									</div>
+
+									<div class="p-1 border border-bottom-0 tax_rate_div">
+										<label class="form-label"><strong>Tax Rate</strong></label>
+										<input type="text" name="tax_rate" id="tax_rate" value="0" maxlength="30"
+											class="form-control form_control border-blue">
+									</div>
+
+									<div class="p-1 border border-bottom-0">
+										<label class="form-label"><strong>Discount Type</strong></label>
+										<select class="form-control form_control arrow_icon border-blue select-control"
+											name="discount_type" id="discount_type">
+											<option value="none" selected="">None</option>
+											<option value="percent">Percent</option>
+											<option value="float amount">Flat Amount</option>
+										</select>
+									</div>
+
+									<div class="p-1 border border-bottom-0 d-none discount_rate_sec">
+										<label class="form-label"><strong>Discount Rate</strong></label>
+										<input type="text" name="discount_rate" value="0" id="discount_rate"
+											maxlength="30" class="form-control form_control border-blue">
+									</div>
+
+								</div>
+							</div>
+							<div class="row g-2 mt-2 p-1">
+								<div class="item_list table-responsive-md">
+									<table class="table table-borderless invoice_table">
+										<thead>
+											<tr class="border-bottom border-dark">
+												<th class="p-0 m-0"></th>
+												<th class="ps-0">DESCRIPTION</th>
+												<th class="text-end">HSN CODE</th>
+												<th class="text-end"> RATE</th>
+												<th class="text-end">QTY</th>
+												<th class="text-end d-none per-item-tax p-0 pb-2 pe-2">ITEM TAX</th>
+												<th>AMOUNT</th>
+												<th class="total_tax_th">TAX</th>
+											</tr>
+										</thead>
+										<tbody class="invoice_items">
+											<tr class="border-bottom" id="add_button">
+												<td colspan="6" class="ps-0">
+													<button type="button" class="btn btn-success "
+														id="invoice_item_add"><i class="fa fa-times"
+															style="transform: rotate(45deg);"></i></button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="invoice_totals  mb-1 ">
+								<div class="pe-4 d-flex justify-content-end">
+									<div class="invoice_summary-label">Subtotal</div>
+									<div class="invoice_summary"><span>&#8377;<span class="sub_total">0.00</span></span>
+									</div>
+									<input type="hidden" name="sub_total" placeholder="0" value="0.00">
+								</div>
+								<div class="pe-4 hidden d-flex justify-content-end d-none total_discount_sec">
+									<div class="invoice_summary-label">Discount (0%)</div>
+									<div class="invoice_summary"><span>- &#8377;<span
+												class="total_discount">0.00</span></span></div>
+									<input type="hidden" name="total_discount" placeholder="0" value="0.00">
+								</div>
+								<div class="pe-4 d-flex justify-content-end total_tax_div">
+									<div class="invoice_summary-label">Tax (0%)</div>
+									<div class="invoice_summary"><span class="tax-sign">+ &#8377;</span><span
+											class="total_tax">0.00</span></div>
+									<input type="hidden" name="total_tax" placeholder="0" value="0.00">
+								</div>
+								<div class="pe-4 hidden d-flex justify-content-end d-none total_discount_per_item_sec">
+									<div class="invoice_summary-label">Discount (0%)</div>
+									<div class="invoice_summary"><span>- &#8377;<span
+												class="total_discount">0.00</span></span></div>
+									<input type="hidden" name="total_discount" placeholder="0" value="0.00">
+								</div>
+								<div class="pe-4 d-flex justify-content-end">
+									<div class="invoice_summary-label">Total</div>
+									<div class="invoice_summary"><span>&#8377;<span class="total">0.00</span></span>
+									</div>
+									<input type="hidden" name="total" placeholder="0" value="0.00">
+								</div>
+								<div class="pe-4 d-flex justify-content-end">
+									<div class="invoice_summary-label">Balance Due</div>
+									<div class="invoice_summary"><span>&#8377;<span
+												class="balance_due">0.00</span></span></div>
+									<input type="hidden" name="balance_due" placeholder="0" value="0.00">
+								</div>
+							</div>
+
+							<div class="row pt-3">
+								<div class="col-md">
+									<div class="p-1 border border-bottom-0">
+										<label class="form-label"><strong>Notes</strong></label>
+										<div class="p-0 mb-1 position-relative item_notes input-filled">
+											<label class=" form-label floating-label pe-3">Notes - any
+												relevant information not covered, additional terms and conditions
+											</label>
+											<textarea class="form-control form_control border-blue h-100"
+												style="resize: none;" rows="6" name="invoice_note" value="This is computer generated invoice no signature required"
+												id="invoice_note"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<% if(typeof loggedInUser!=="undefined" && loggedInUser && loggedInUser._id) {%>
+							<input type="hidden" id="user_id" value="<%- loggedInUser._id %>">
+							<% } else {%>
+								<input type="hidden" id="user_id" value="">
+								<% }%>
+									<input type="hidden" id="old_progress_number" value="">
+									<input type="hidden" id="progress_id" value="">
+									<input type="hidden" id="guest_email_hidden" value="">
+									<input type="hidden" id="logo_path" value="">
+					</form>
+				</div>
+				<div class="bill_part position-relative mt-0">
+					<div class="btn-wrapper save_load_btn">
+						<div class="row g-2">
+							<div class="col col-md-4 mb-1">
+								<button type="button" class="btn primary-btn btn-block p-3 w-100 save_draft"
+									id="save_draft_btn" disabled>SAVE TEMPLATE</button>
+							</div>
+							<div class="col col-md-4 mb-1">
+								<button type="button" class="btn primary-btn btn-block p-3 w-100 load_template"
+									data-document="Invoice" id="load_template_btn">LOAD TEMPLATE</button>
+							</div>
+							<div class="col col-md-4 mb-1">
+								<button type="button" class="btn primary-btn btn-block p-3 w-100 checkOut"
+									id="checkOut_btn">CHECKOUT</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="container invoice_preview_section" style="display: none;">
+				<div class="bill_preview">
+					<div class="pdf_view">
+						<div class="bill_preview_title text-capitalize text-white text-center ">Invoice Preview</div>
+						<div class="invoice-preview"
+							style="font-size:12px; margin: 0px auto 15px; background: #FFFFFF;">
+							<div style="padding: 15px;">
+								<div class="row mb-3">
+									<div class="col-6">
+										<h2 style="font-size: 22px; font-weight: 600;" class="invoice_title">Invoice
+										</h2>
+									</div>
+									<div class="col-6 text-end me-0" style="min-height:90px;">
+										<img src="" class="logo_path invoice_logo_img mw-100 h-auto d-none"
+											alt="invoice_logo" height="80" width="170" />
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h3 style="font-size: 16px; font-weight: 600; margin-bottom: 10px;">From</h3>
+										<div>
+											<h2 style=" font-size: 18px; font-weight: normal; margin-bottom: 5px;"
+												class="from_name">Company Name</h2>
+										</div>
+										<div style="margin-bottom: 5px;"><span class="from_email">email@gmail.com</span>
+										</div>
+										<div style="margin-bottom: 5px;">
+											<span class="from_street_address_1">Company address 1</span>,
+											<span class="from_street_address_2">Company address 2</span>,
+											<span class="from_city">Company City</span>,
+											<span class="from_state">Company State</span>,
+											<span class="from_zip_code">12345</span>
+										</div>
+										<div style="margin-bottom: 5px;">
+											<span>Phone number: &nbsp;</span>
+											<span class="from_phone">(123) 102 1000</span>
+										</div>
+										<div>
+											<span>Business number: &nbsp;</span>
+											<span class="from_business_number">123-102-2023</span>
+										</div>
+									</div>
+									<div class="col">
+										<h3 style="font-size: 16px; font-weight: 600; margin-bottom: 10px;">To</h3>
+										<div>
+											<h2 style=" font-size: 18px; font-weight: normal; margin-bottom: 6px;"
+												class="to_name">Client name</h2>
+										</div>
+										<div style="margin-bottom: 6px;"><span class="to_email">email@gmail.com</span>
+										</div>
+										<div style="margin-bottom: 6px;">
+											<span class="to_street_address_1">Client address 1</span>,
+											<span class="to_street_address_2">Client address 2</span>,
+											<span class="to_city">Client City</span>,
+											<span class="to_state">Client State</span>,
+											<span class="to_zip_code">12345</span>
+										</div>
+										<div style="margin-bottom: 6px;">
+											<span>Phone number:&nbsp;</span><span class="to_phone">(123) 102 0202</span>
+										</div>
+									</div>
+								</div>
+								<hr style="margin-top: 27px; margin-bottom: 31px; opacity: unset;" />
+								<div class="row" style="margin-bottom: 31px;">
+									<div class="col w-50">
+										<div class="d-flex">
+											<div style="width:8%;">
+												<span>Number:</span>
+											</div>
+											<div>
+												<span class="from_number">INV2839</span>
+											</div>
+										</div>
+										<div class="d-flex">
+											<div style="width:8%;">
+												<span>Date:</span>
+											</div>
+											<div style="width:90%;">
+												<span class="from_date">August 17,2022</span>
+											</div>
+										</div>
+										<div class="d-flex from_terms_field d-none">
+											<div style="width:8%;">
+												<span>Terms:</span>
+											</div>
+											<div style="width:90%;">
+												<span class="from_terms">60 Days</span>
+											</div>
+										</div>
+										<div class="d-flex from_due_date_field d-none">
+											<div style="width:8%;">
+												<span>Due:</span>
+											</div>
+											<div style="width:90%;">
+												<span class="from_due_date">October 22,2022</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div>
+									<table class="table  table-borderless mb-0" style="border-top: 1px solid; ">
+										<thead>
+											<tr style="background: #dedede;  border-bottom: 1px solid; ">
+												<th style="width:70%; font-weight:500">Description</th>
+												<th style="text-align:right; font-weight:500">Rate</th>
+												<th style="text-align:right; font-weight:500">Qty</th>
+												<th style="text-align:right; font-weight:500"
+													class="per_item_preview d-none">Item Tax</th>
+												<th style="text-align:right; font-weight:500">Amount</th>
+											</tr>
+										</thead>
+										<tbody class="invoice_items_preview">
+										</tbody>
+									</table>
+									<hr class="mt-0" style="opacity: unset;" />
+								</div>
+
+								<div class="row justify-content-end">
+									<div class="col-auto text-end">
+										<div>Subtotal</div>
+										<div class="total_discount_preview d-none">Discount (0%)</div>
+										<div class="total_tax_preview">Tax (0%)</div>
+										<div class="total_discount_preview_per_item d-none">Discount (0%)</div>
+										<div>Total</div>
+										<div style="font-size: 15px; font-weight: 600;">Balance Due</div>
+									</div>
+									<div class="col-auto text-end me-2" style="min-width: 13%;">
+										<div><span>&#8377;<span class="sub_total">0.00</span></span></div>
+										<div class="total_discount_text d-none"><span>- &#8377;<span
+													class="total_discount">0.00</span></span></div>
+										<div class="total_tax_text"><span class="tax-sign">+ &#8377;</span><span
+												class="total_tax">0.00</span></div>
+										<div class="total_discount_per_item_text d-none"><span>- &#8377;<span
+													class="total_discount">0.00</span></span></div>
+										<div><span>&#8377;<span class="total">0.00</span></span></div>
+										<div><strong style="font-size: 15px; font-weight: 600;"><span>&#8377;<span
+														class="balance_due" id="balance_due">0.00</span></span></strong>
+										</div>
+									</div>
+
+								</div>
+								<hr style="opacity: unset;">
+								<div class="pt-2" style="min-height: 100px">
+									<p class="m-0">Notes - <span class="invoice_note"></span></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+			</section>
+
+			<section class="container">
+				<div class="content-wrap">
+					<h2>All About Invoice Generator</h2>
+					<h5>What is an invoice?</h5>
+					<p>An invoice is a commercial document used in business transactions to formally request payment
+						from a customer or client for products or services provided. It serves as a detailed record of
+						the goods or services sold, their quantities, prices, and any applicable taxes or discounts.
+						Invoices play a crucial role in the financial operations of businesses as they provide a clear
+						and legally binding record of the transaction.</p>
+					<h5>What is Key elements typically found on an invoice?</h5>
+					<ul>
+						<li><b>Invoice Number : </b>A unique identifier assigned to each invoice for tracking and
+							reference purposes.</li>
+						<li><b>Date : </b>The date when the invoice is issued.</li>
+						<li><b>Billing and Shipping Information : </b>The sender's (seller's) contact details and the
+							recipient's (buyer's) contact details, including names, addresses, and contact information.
+						</li>
+						<li><b>Description of Goods/Services : </b>A detailed listing of the products or services
+							provided, including quantities, unit prices, and any additional charges.</li>
+						<li><b>Discounts & Taxes : </b>You can provide discounts on the items you've sold, and Bill
+							Generator' online invoicing tool will automatically calculate the discounts. You can also
+							add additional charges like Taxes, shipping charges, etc.</li>
+						<li><b>Total Amount Due : </b>The sum of all the items listed on the invoice, including any
+							applicable taxes and discounts.</li>
+						<li><b>Payment Terms : </b>Information about when the payment is due, such as "Net 30" (payment
+							is due within 30 days of the invoice date).</li>
+						<li><b>Terms and Conditions : </b>Any specific terms or conditions related to the sale, such as
+							return policies or late payment penalties.</li>
+					</ul>
+
+					<h5>What is Benefits of Using an Online Invoice Generator?</h5>
+					<p>Using an invoice generator offers several benefits for businesses and individuals alike. Here are
+						some of the key advantages:</p>
+					<ul>
+						<li><b>Time Efficiency : </b>Invoice generators streamline the invoicing process by automating
+							calculations and formatting. This saves valuable time that can be better spent on core
+							business activities.</li>
+						<li><b>Professional Appearance : </b>Invoice generators produce polished, standardized invoices
+							that convey professionalism and reliability. Consistency in design and layout can enhance
+							your brand image.</li>
+						<li><b>Reduced Errors : </b>Manual invoicing can lead to calculation errors or omissions.
+							Invoice generators perform accurate calculations, reducing the risk of mistakes and disputes
+							with clients.</li>
+						<li><b>Faster Payments : </b>Professionally formatted invoices with clear payment instructions
+							can encourage clients to pay promptly. This can improve your cash flow and reduce late
+							payments.</li>
+						<li><b>Tax Compliance : </b>Many invoice generators automatically calculate taxes, making it
+							easier to stay compliant with tax regulations. They can also generate reports that simplify
+							tax filing.</li>
+						<li><b>Accessibility : </b>You can access invoice generators from anywhere with an internet
+							connection, allowing for greater flexibility and the ability to create invoices on the go.
+						</li>
+						<li><b>Cost-Effective : </b>Most invoice generators offer free or affordable plans, reducing the
+							need for expensive accounting software or outsourcing invoicing tasks.</li>
+						<li><b>Security : </b>Reputable invoice generator platforms prioritize the security of your
+							financial data, offering encryption and data protection measures.</li>
+						<li><b>Environmentally Friendly : </b>Going paperless with digital invoices contributes to
+							environmental sustainability by reducing paper waste.</li>
+						<li><b>Client Satisfaction : </b>Professional, well-organized invoices can enhance your clients'
+							experience, demonstrating your commitment to professionalism and transparency.</li>
+					</ul>
+
+					<h5>Can I put my own logo on the invoice?</h5>
+					<p>Yes, Online invoice bill generators allow you to customize your invoices by adding your own logo.
+						This feature enables you to brand your invoices with your company's logo or emblem, giving them
+						a professional and personalized appearance.</p>
+					<p>Adding your logo to your invoices not only enhances their visual appeal but also reinforces your
+						brand identity. It can help make your invoices more recognizable and professional, leaving a
+						positive impression on your clients or customers.</p>
+
+					<h5>How do I charge taxes using the invoice generator?</h5>
+					<p>To charge taxes using an invoice generator, Simply select tax type like On Total/Per
+						Item/Deducted in Tax Type field. Then, input the tax rate (as a percentage/flat amount). Once
+						set up, The generator will automatically calculate the tax amount as per tax type, and display
+						the total amount due accurately.</p>
+
+					<h5>Will my clients see watermark on my invoices?</h5>
+					<p>No, your clients/Customers should not see a watermark on your invoices. Our tool creates free
+						invoices for all without adding watermarks.</p>
+
+					<h5>As a freelancer, how do I make an invoice for time?</h5>
+					<p>To make an invoice for billable hours using an online bill generator, input your and your
+						client's contact details, assign an invoice number and date, and specify the payment due date.
+						Enter the number of hours worked into the quantity field, and describe task details. Enter your
+						hourly rate into the rate field, and the generator will automatically calculate the subtotal.
+						Add any applicable taxes, customize the invoice template, and include payment instructions. With
+						an online bill generator, this process is efficient, error-free, and produces a professional
+						invoice for your freelance work.</p>
+
+					<h5>Can an invoice generator be used on a mobile device?</h5>
+					<p>Yes, you can use online invoice generators on your mobile device. As long as the generator is
+						responsive, meaning it adjusts its layout based on the type of device you're using, it should
+						work seamlessly on your mobile device.</p>
+
+					<h5>Can I save my invoices to this online invoice generator?</h5>
+					<p>Yes, absolutely! Any invoices you create using this online invoice generator are automatically
+						saved online. You can conveniently access all your invoices whenever you need them by simply
+						logging into your account.</p>
+
+					<h5>How can I share my invoice?</h5>
+					<p>You can share your invoice by creating one using our invoice generator. Once generated, download
+						a PDF copy, which you can attach to an email or a message for your client. Alternatively, you
+						can share a link with your customer, allowing them to download or print the invoice directly,
+						eliminating the need for traditional mail delivery.</p>
+
+					<h5>What are the benefits of using Online Bill Generator invoice? </h5>
+					<ul>
+						<li><b>User-Friendly Interface : </b>Our user-friendly interface makes it a breeze to generate
+							invoices, even if you're not tech-savvy. You can create invoices in just a few clicks.</li>
+						<li><b>Customization : </b>Tailor your invoices to suit your brand. Add your company logo,
+							choose your preferred color scheme, and even include a personalized message for your
+							clients.</li>
+						<li><b>Multiple Payment Options : </b>Provide your clients with various payment options,
+							including credit card, PayPal, and more, to ensure you get paid promptly.</li>
+						<li><b>Automatic Calculation : </b>Say goodbye to manual calculations. Our online bill generator
+							will automatically calculate totals, taxes, and discounts, saving you time and minimizing
+							errors.</li>
+						<li><b>Save and Share : </b>Easily save your invoices for future reference or share them
+							directly with clients via email or download them as PDF files.</li>
+						<li><b>Secure and Reliable : </b>Rest assured that your financial data is safe and secure with
+							us. We prioritize the security of your information.</li>
+						<li><b>Mobile-Friendly : </b>Create invoices on the go. Our platform is fully responsive, so you
+							can use it on your desktop, tablet, or smartphone.</li>
+						<li><b>No Hidden Costs : </b>We believe in transparency. There are no hidden costs or
+							subscription fees. Our online bill generator is truly free to use.</li>
+					</ul>
+					<p>Whether you're a freelancer, small business owner, or just need a quick solution to bill a client
+						or customer, our "Online Bill Generator" has you covered. Simplify your invoicing process and
+						save valuable time with our easy-to-use, free invoice generation tool.</p>
+					<p>Start using it today and experience the convenience of hassle-free invoicing. Create, send, and
+						get paid with confidence, all at no cost. Your business deserves the best, and we're here to
+						help you succeed.</p>
+				</div>
+			</section>
+			<section class="loader-wrapper" id="show_loader">
+				<div class="loader-inner">
+					<div class="loader">
+						<span style="--i: 6"></span>
+						<span style="--i: 7"></span>
+						<span style="--i: 8"></span>
+						<span style="--i: 9"></span>
+						<span style="--i: 10"></span>
+						<span style="--i: 11"></span>
+						<span style="--i: 12"></span>
+						<span style="--i: 13"></span>
+						<span style="--i: 14"></span>
+						<span style="--i: 15"></span>
+						<span style="--i: 16"></span>
+						<span style="--i: 17"></span>
+						<span style="--i: 18"></span>
+						<span style="--i: 19"></span>
+						<span style="--i: 20"></span>
+					</div>
+				</div>
+			</section>
+		</main>
+		<!-- end bill content -->
+		<%- contentFor('FooterJs') %>
+			<script src="/plugins/daterangepicker/daterangepicker.js"></script>
+			<script src="/javascript/invoice.js"></script>
+			<script>
+
+				$(document).ready(function () {
+					// Handle change event of company_name dropdown
+					$("#to_name").change(function () {
+
+						const selectedCompany = $("#to_name").val();
+
+						if (selectedCompany) {
+							const sendingData = {
+								company_name: selectedCompany
+							};
+
+							$.ajax({
+								url: `/findCompanyData`,
+								method: "POST",
+								data: sendingData,
+								success: function (result) {
+									if (result.success == true) {
+										$("#to_email").val(result.data.company_email);
+										$("#to_street_address_1").val(result.data.company_address1);
+										$("#to_street_address_2").val(result.data.company_address2);
+										$("#to_city").val(result.data.company_city);
+										$("#to_state").val(result.data.company_state);
+										$("#to_zip_code").val(result.data.company_zip);
+										$("#to_phone").val(result.data.company_number);
+										$("#to_gst_number").val(result.data.company_gst_number)
+										$("#to_state").val("Gujarat");
+									} else {
+										toastr.error(result.message);
+									}
+								},
+								error: function (err) {
+									toastr.error(err.responseJSON?.message || "something went wrong.");
+								}
+							});
+
+						} else {
+							$("#to_email").val("");
+							$("#to_street_address_1").val("");
+							$("#to_street_address_2").val("");
+							$("#to_city").val("");
+							$("#to_zip_code").val("");
+							$("#to_phone").val("");
+							$("#to_state").val("Gujarat");
+						}
+
+
+					});
+				});
+			</script>

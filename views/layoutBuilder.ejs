@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title><%-title%> | Bill Generator </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="<%-metaDescription%>" />
+	<% if(noindex && noindex == true) { %>
+	<meta name='robots' content='noindex, nofollow' />
+	<% } %>
+	<% if(url && url != "") { %>
+	<link rel="canonical" href="<%-url%>" />
+	<% } %>
+	<%- include('./partials/faviconLink') %>
+	<%- include('./partials/headerStyle') %>
+	<% if(env && env == true){ %>
+	<%- include('./partials/chatBot') %>
+	<%- include('./partials/analytics') %>
+	<% } %>
+	<%- HeaderCss %>
+	<style>
+		.information label {
+			pointer-events: auto;
+		}
+
+		form.form-wizard>.form-step {
+			display: none;
+		}
+
+		[data-repeater-list]>*.firs-child>[data-delete-btn] {
+			display: none;
+		}
+
+		form.form-wizard .error-message {
+			color: red;
+			font-size: 12px;
+		}
+
+		#previewContent {
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+			width: 100%;
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- ============================================================== -->
+	<!-- START -- HEADER -->
+	<!-- ============================================================== -->
+	<%- include('./partials/navbarBuilder') %>
+	<!-- ============================================================== -->
+	<!-- END -- HEADER -->
+	<!-- ============================================================== -->
+
+	<!-- ============================================================== -->
+	<!-- START -- BODY CONTENT -->
+	<!-- ============================================================== -->
+	<%- body %>
+	<!-- ============================================================== -->
+	<!-- END -- BODY CONTENT -->
+	<!-- ============================================================== -->
+
+	<!-- ============================================================== -->
+	<!-- START -- BOTTOM HTML CODE -->
+	<!-- ============================================================== -->
+	<%- include('./partials/bottomCode') %>
+	<!-- ============================================================== -->
+	<!-- END -- BOTTOM HTML CODE -->
+	<!-- ============================================================== -->
+
+	<!-- ============================================================== -->
+	<!-- START -- FOOTER -->
+	<!-- ============================================================== -->
+	<%- include('./partials/footerContent') %>
+	<!-- ============================================================== -->
+	<!-- END -- FOOTER -->
+	<!-- ============================================================== -->
+
+	<%- include('./partials/footerScript') %>
+	<%- FooterJs %>
+
+	<script src="/javascript/document_common.js"></script>
+
+	<% if(typeof error!=="undefined" && error.length> 0) { %>
+	<script>
+		toastr.error(`<%-error%>`);
+	</script>
+	<% } %>
+	<% if(typeof message!=="undefined" && message.length> 0) { %>
+	<script>
+		toastr.success(`<%-message%>`);
+	</script>
+	<% } %>
+
+	<style>
+		.pdf_preview_wrapper {
+			overflow: hidden;
+		}
+
+		.pdf_preview {
+			width: 1098px;
+			overflow: hidden;
+		}
+
+		.pdf_preview_inner {
+			transform-origin: left top;
+			width: 100%;
+			height: 100%;
+			min-height: 137.2px;
+			background-color: #fff;
+		}
+	</style>
+
+	<script>
+		$(window).on('resize', function() {
+			// Change transform scale according to the width
+			var $_preview_inner = $('.pdf_preview_inner');
+			var $_pdf_preview = $('.pdf_preview');
+			var $_pdf_preview_wrapper = $('.pdf_preview_wrapper');
+			var parentWidth = $_pdf_preview.width();
+			let scaleWidth,
+				previewWrapperWidth = $_pdf_preview_wrapper.innerWidth(),
+				previewWidth = $_pdf_preview.innerWidth(),
+				maxHeight = $_preview_inner.innerHeight();
+			scaleWidth = Math.min(previewWrapperWidth / previewWidth);
+			//scaleWidth = Math.max(scaleWidth, 0.25);
+
+			var transform = 'scale(' + scaleWidth + ')';
+			$_preview_inner.css('transform', transform);
+
+			if ($(window).width() > 767) {
+				$_pdf_preview.css('height', $_pdf_preview_wrapper.height());
+				$_preview_inner.css('height', $_pdf_preview_wrapper.height() / scaleWidth);
+			} else {
+				$_pdf_preview.css('height', '300px');
+				$_preview_inner.css('height', 300 / scaleWidth);
+			}
+
+		}).resize();
+	</script>
+</body>
+
+</html>

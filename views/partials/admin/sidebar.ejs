@@ -1,0 +1,65 @@
+<!-- Sidebar  -->
+<nav id="sidebar" class="navbar-nav sidebar">
+	<div class="sidebar-header">
+		<img src="/image/logo/white_logo.png" alt="AdminLTE Logo" class="bill_logo img-fluid" width="150px">
+	</div>
+	<hr class="sidebar-divider mt-0">
+	<ul class="sidebar-components list-unstyled d-flex flex-column h-100 mb-0">
+		<li>
+			<a href="/admin/dashboard">
+				<i class="fas fa-home"></i>
+				<span>Dashboard</span>
+			</a>
+		</li>
+		<li>
+			<a href="/admin/company">
+				<i class="fa fa-industry"></i>
+				<span>Comapny</span>
+			</a>
+		</li>
+		<li>
+			<a href="/admin/products">
+				<i class="fa fa-cogs"></i>
+				<span>Products</span>
+			</a>
+		</li>
+		<li>
+			<a href="/admin/invoice">
+				<i class="fa fa-file-text"></i>
+				<span>Invoice</span>
+			</a>
+		</li>
+		<li>
+			<a href="/admin/users">
+				<i class="fas fa-user"></i>
+				<span>Users</span>
+			</a>
+		</li>
+		<li class="mt-auto">
+			<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#logoutModal">
+				<i class="fas fa-sign-out-alt"></i>
+				<span>LOGOUT</span>
+			</a>
+		</li>
+
+	</ul>
+</nav>
+
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" style="display: none;"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-light">
+				<h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary rounded-6" type="button" data-bs-dismiss="modal">Cancel</button>
+				<a class="btn btn-danger rounded-6" href="/admin/auth/logout">Logout</a>
+			</div>
+		</div>
+	</div>
+</div>

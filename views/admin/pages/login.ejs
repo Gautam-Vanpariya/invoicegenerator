@@ -1,0 +1,35 @@
+<%- contentFor('HeaderCss') %>
+
+<%- contentFor('body') %>
+<section class="login">
+    <div class="login_register_part d-flex">
+        <div class='login_left w-50'>
+            <div class="login_content">
+                <div class="login_logo text-center">
+                    <img src="/image/login/login_logo.png" alt="Bill-Generator" />
+                </div>
+                <div class="welcome text-center">
+                    <h5 class='mb-3'>Welcome to Bill Generator!</h5>
+                    <div style="color:#858585" class='mb-4'>Please sign in to your account!</div>
+                </div>
+                <form method="POST" class="login_form" id="login_form" action="#">
+                    <div class="form-group">
+                        <input type="email" name='email'  class="form-control login_input" aria-describedby="emailHelp" placeholder="Email" />
+                        <span style="color:red" class='pl-2'></span>
+
+                    </div>
+                    <div class="form-group position-relative">
+                        <input type="password" name='password' class="form-control login_input" placeholder="Password"/>                           
+                        <div class='text-right mt-2 pt-1'></div> 
+                    </div>                           
+                    <button type="button" id="loginBtnSubmit" class="btn btn_login_color btn-block p-3" >SIGN IN</button>
+                </form>
+            </div>
+        </div>
+        <div class='login_right w-50 d-flex justify-content-center align-items-end'>
+        </div>
+    </div>
+</section>
+
+<!-- end account-pages -->    
+<%- contentFor('FooterJs') %>

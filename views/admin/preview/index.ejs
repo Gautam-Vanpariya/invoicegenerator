@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Preview</title>
+    </head>
+    <body>
+        <div style="width: 900px; margin: 0 auto; border: 1px solid black; padding: 20px;">
+            <table style="width:100%">
+                <tbody style="background:linear-gradient(90deg,rgba(223, 241, 255, .81) 58%, #fafcff 79%);">
+                    <tr>
+                        <% if(result.logo_path){ %>
+                            <td style="width:10%;padding:10px;">
+                                <img src="<%= process.env.HOST%><%= result.logo_path %>" style="width: 100px;" alt="logo" />                      
+                            </td>
+                          <% } %> 
+                        <td style="width:60%;padding:10px;">
+                            <h2><% if (result.company_name){%> <%= result.company_name %> <%} else{ %><%= "Company Name" %> <% } %></h2>
+                            <h3 style="font-size: 20px;"><% if(result.company_website){%> <%= result.company_website %> <% } else{ %><%= "Company Website" %> <% } %></h3>
+                        </td>
+                        <td style="width:30%;padding:10px;text-align: right;">
+                            <table> 
+                                <tbody style="line-height:28px;font-size:20px">
+                                    <tr>
+                                        <td>Acccount No :</td>
+                                        <td align="right"><%= data.application_number %></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Statement Date :</td>
+                                        <td><% if(result.statement_date_data){%> <%= result.statement_date_data %> <% } else{ %><%= "dd/mm/yy" %> <% } %></td>  
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Due Date :</strong></td>
+                                        <td><strong><% if(result.due_date){%> <%= result.due_date %> <% } else{ %><%= "dd/mm/yy" %> <% } %></strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>                                       
+                        </td>
+                    </tr>                              
+                </tbody>                     
+            </table>
+            <table style="margin-top: 20px;width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="width:35%;padding:0px 10px 10px;vertical-align:top;">
+                            <h2 style="font-size:22px;font-weight:bold;padding:0px 0px 10px 10px;">Service For:</h2>
+                            <span style="text-transform:uppercase;padding: 10px;"><% if(result.name){%> <%= result.name %> <% } else{ %><%= "Name" %> <% } %></span>
+                            <br />
+                            <span style="padding: 10px;"><% if(result.address || result.user_state){%> <%= result.address %> <%= result.user_state %> <% } else{ %><%= "Address" %> <% } %> </span>
+                            <br />
+                            <h2 style="font-size:18px;background-color:#cccccd;margin-top:50px;padding:5px">Question about your bill?</h2>
+                            <div style="padding-left: 5px; margin-top: 5px;">Monday-Friday 7 a.m.-9 p.m.</div>
+                            <div style="padding-left: 5px;">Saturday 8 a.m.-6 p.m.</div>
+                            <div style="padding-left: 5px;">Phone:1-800-743-5000</div>
+                            <div style="padding-left: 5px;"><% if(result.company_website){%> <%= result.company_website %> <% } else{ %><%= "Company Website" %> <% } %></div>
+                            <h2 style="font-size:18px;background-color:#cccccd;margin-top:15px;padding:5px;">Way To Pay</h2>
+                            <div style="padding:5px;margin-top:5px;"><% if(result.company_website){%> <%= result.company_website %> <% } else{ %><%= "Company Website" %> <% } %></div>
+                        </td>
+                        <td style="width:65%;vertical-align:top;padding:0px 10px 10px;">
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <h2 style="font-size: 22px;font-weight: bold;margin-bottom: 10px; padding-left: 5px;">Your Account Summary</h2>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <table style="width: 100%;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="padding-left: 5px;">Amount Due On Previous statement</td>
+                                                        <td align="right" style="padding-right: 10px;" id="previous_amt_due"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="padding-left: 5px;">Payment(s) Received Since Last Statement</td>
+                                                        <td align="right" style="padding-right: 10px;" id="receive_previous_payment"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><hr style="border-bottom:1px solid black;margin:3px 0;"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="padding-left: 5px;">Previous Unpaid Balance </td>
+                                                        <td align="right" style="padding-right: 10px;">$0.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan="2" height="5"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="padding-left: 5px;">Current PG&E Electric delivery Charges</td>
+                                                        <td align="right" style="padding-right: 10px;">$<%= result.delivery_charges %></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="padding-left: 5px;">Silicon Valley Clean Energy7 Electric Generation Charges</td>
+                                                        <td align="right" style="padding-right: 10px;">$<%= result.generation_charges %></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan="2" height="30"></td>
+                                                    </tr>
+                                                    <tr style="border:1px solid black;font-size:22px">
+                                                        <td style="margin-top: 10px;padding: 5px;"><strong>Total Amount Due </strong>by <% if(result.due_date){%> <%= result.due_date %> <% } else{ %><%= "dd/mm/yy" %> <% } %>  </td>
+                                                        <td align="right" style="padding: 5px;"><strong id="due_amt"></strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colSpan="2" height="150"></td>
+                                    </tr> 
+                                    <tr style="height:250px;border:1px solid black;"> 
+                                        <td style="vertical-align:top;">
+                                            <table style="width:100%;">
+                                                <tbody>
+                                                    <tr style="vertical-align:top;background-color:#cccccd;">
+                                                        <td><h2 style="font-size:18px;padding:10px;font-weight:bold;text-align:left;">Monthly Billing History</h2></td>
+                                                        <td style="padding:10px;text-align:right;">Daily Usage Comparison</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan="2">
+                                                            <canvas id="myChart" style="display:none"></canvas>
+                                                            <img src="/<%= data.application_number %>_<%= data.user_id %>_Graph.png" id="chartImg" style="width:100%; height:80%" alt="logo" />
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>                                                    
+                                    </tr>                                      
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0px 0px 5px 10px;font-size:18px;"><strong>Important Messages</strong></td>
+                    </tr>
+                    <tr>
+                        <td colSpan="2" style="padding:0px 0px 0px 10px;">
+                            <div>
+                                <p style="margin-bottom:10px;">The Family Electric Rate Assistance (FERA) Program provides a monthly discount on electric bills for income - qualified households of three or more persons.  To see if you qualify, please call <strong><%= result.service_number %></strong> or apply online at <strong><% if(result.company_website){%> <%= result.company_website %> <% } else{ %><%= "Company Website" %> <% } %>.</strong> 
+                                </p> 
+                                <br />
+                                <p>El program FERA ofrece ahorros mensuales solo en las facturas de electricidad a hogares de ingresos economicos bajos y medianos contres o mas personas. para determinar si califica,por favor llame al <strong><%= result.service_number %></strong> o puede aplicar a traves de nuestra pagina web <strong><% if(result.company_website){%> <%= result.company_website %> <% } else{ %><%= "Company Website" %> <% } %>.</strong> 
+                                </p>                               
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="border-bottom:2px dotted black;">
+                        <td style="padding:20px;"></td>
+                    </tr> 
+                    <tr>
+                        <td colSpan="2" style="padding-left:80px;"><strong>Please returns this portion with your payment.No staples or paper clips.Do Not Fold.Thank you.</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:25px;"></td>
+                    </tr>                            
+                </tbody>
+            </table>
+            <table style="width:100%;">
+                <tbody>
+                    <tr>
+                        <td style="width:10%;padding:20px 40px 0px 50px;vertical-align:top">
+                            <% if(result.logo_path){ %>
+                                    <img src="<%= process.env.HOST%><%= result.logo_path %>" style="width: 100px;" alt="logo" />    
+                              <% } %> 
+                        </td>
+                        <td style="width:90%;padding:20px;">
+                            <div style="border:1px solid black;padding:15px;">
+                                <table style="width:100%;">
+                                    <tbody>
+                                        <tr>
+                                            <td style="vertical-align:top;">
+                                                <table style="width:100%;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Account Number:</td>
+                                                            <td>Due Date:</td>
+                                                            <td>Total Amount Due:</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="font-size:18px;"><strong><%= data.application_number %></strong></td>
+                                                            <td style="font-size:18px;"><strong><% if(result.due_date){%> <%= result.due_date %> <% } else{ %><%= "dd/mm/yy" %> <% } %></strong></td>
+                                                            <td style="font-size:18px;"><strong id="total_amt_due"></strong></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table style="border:2px solid #c6c2cd;width:100%;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td colSpan="17" style="padding:0px 10px;">Amount Enclosed</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="font-weight:bold;padding-left:10px;width:20px;vertical-align:bottom;font-size:18px;">$</td>
+                                                            <td style="width:20px;">
+                                                                <ul style="margin:0px;background-color:#c6c2cd;">
+                                                                    <li style="margin:0 3px;list-style:none;height:30px;"></li>
+                                                                </ul>
+                                                            </td>
+                                                            <td style="width:20px;">
+                                                                <ul style="margin:0px;background-color:#c6c2cd;">
+                                                                    <li style="margin:0 3px;list-style:none;height:30px;"></li>
+                                                                </ul>
+                                                            </td>
+                                                            <td style="width:20px;">
+                                                                <ul style="margin:0px;background-color:#c6c2cd;">
+                                                                    <li style="margin:0 3px;list-style:none;height:30px;"></li>
+                                                                </ul>
+                                                            </td>
+                                                            <td style="width:20px;">
+                                                                <ul style="margin:0px;background-color:#c6c2cd;">
+                                                                    <li style="margin:0 3px;list-style:none;height:30px;"></li>
+                                                                </ul>
+                                                            </td>
+                                                            <td style="width:20px;">
+                                                                <ul style="margin:0px;background-color:#c6c2cd;">
+                                                                    <li style="margin:0 3px;list-style:none;height:30px;"></li>
+                                                                </ul>
+                                                            </td>
+                                                            <td style="width:20px;">
+                                                                <ul style="margin:0px;background-color:#c6c2cd;">
+                                                                    <li style="margin:0 3px;list-style:none;height:30px;"></li>
+                                                                </ul>
+                                                            </td>
+                                                            <td style="width:10px;">
+                                                                <ul style="margin:0px;">
+                                                                    <li style="margin:1px 2px;list-style:none;font-size:24px;text-align:center;"> <sub><strong>.</strong></sub></li>
+                                                                </ul>
+                                                            </td>  
+                                                            <td style="width:20px;">
+                                                                <ul style="margin:0px;background-color:#c6c2cd;">
+                                                                    <li style="margin:1px 3px;list-style:none;height:30px;"></li>
+                                                                </ul>
+                                                            </td>
+                                                            <td style="width:20px;">
+                                                                <ul style="margin:0px;background-color:#c6c2cd;">
+                                                                    <li style="margin:1px 3px;list-style:none;height:30px;"></li>
+                                                                </ul>
+                                                            </td>      
+                                                            
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>                                     
+                                    </tbody>
+                                </table>
+                            </div>                                       
+                        </td>                          
+                    </tr>                                                 
+                </tbody>
+            </table>
+            <div style="margin:10px 20px 120px;">
+                <div style="float:right;">
+                    <span><% if(result.company_name){%> <%= result.company_name %> <% } else{ %><%= "Company Name" %> <% } %></span>
+                    <br />
+                    <span><% if(result.company_address){%> <%= result.company_address %> <% } else{ %><%= "Company Address" %> <% } %>,</span>
+                    <br />
+                    <span style="padding-bottom:30px;"><% if( result.company_city || result.company_state || result.company_zip){%> <%= result.company_city %>, <%= result.company_state %> <%= result.company_zip %> <% } else{ %><%= "Company City" %> <% } %>
+                        </span>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="total_due_amount" id="total_due_amount" value="<% if(result.due_payment_amt){%> <%= result.due_payment_amt %> <% } else{ %><%= 88.14 %> <% } %> " />
+        <input type="hidden" name="previous_payment" id="previous_payment" value="<% if(result.previous_payment){%> <%= result.previous_payment %> <% } else{ %><%= 91.57 %> <% } %>" />
+        <input type="hidden" name="user_id" id="user_id" value="<%= data.user_id %>" />
+        <input type="hidden" name="application_number" id="application_number" value="<%= data.application_number %>" />
+
+        <input type="hidden" name="statement_date" id="statement_date" value="<%= result.statement_date %>" />
+        <script src="/plugins/jquery/jquery-3.6.0.min.js"></script>
+        <script src="/plugins/chartjs-2/index.min.js"></script>
+        <script src="/plugins/chartjs-2/draggable-points.js"></script>
+        <script>
+            $(document).ready(function(){
+                function numberWithCommas(x) {
+                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
+                function roundoff(val) {
+                    return (+val).toFixed(2);
+                }
+                
+                function setFormate(){
+                    var previous_payment = document.getElementById("previous_payment").value;
+                    var total_due_amount = document.getElementById("total_due_amount").value;
+                    var amt = numberWithCommas(roundoff(previous_payment));
+                    var due_amt = numberWithCommas(roundoff(total_due_amount));
+                    document.getElementById("previous_amt_due").innerHTML = "$"+amt;
+                    document.getElementById("receive_previous_payment").innerHTML = "- $"+amt;
+                    document.getElementById("total_amt_due").innerHTML = "%"+due_amt;
+                    document.getElementById("due_amt").innerHTML = "$"+due_amt;
+                }
+                setFormate();
+                
+                function chart(){
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    const user_id = document.getElementById('user_id').value;
+                    const application_number = document.getElementById('application_number').value;
+
+                    var month_name =['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Octomber', 'November', 'December'];
+                    var month_array = new Array();
+                    var count = 0;
+                    var data = document.getElementById("statement_date").value;
+
+                    if(data){
+                        var statement_date_val =  new Date(data);
+                        statement_date_val.setDate(statement_date_val.getDate());
+                        var month_numeric = ("0" + (statement_date_val.getMonth() + 1)).slice(-2);
+                        var get_month = parseInt(month_numeric, 10) - 1;
+                    }else{
+                        var today_date = new Date();
+                        var get_month = today_date.getMonth();                      
+                    }
+                    if (count !== 0) {
+                        get_month = count;
+                    }
+                    var i;
+                    var k = 0;
+                    for (i = 0; i < 12; i++) {
+                        month_array[k] = month_name[get_month];
+                        get_month++;
+                        if (get_month > 11) {
+                            get_month = 0;
+                        }
+                        k++;
+                    }
+
+                    month_array[k] = month_name[get_month];
+
+                    var random_array = [];
+                    while(random_array.length < 13){
+                        var r = Math.floor(Math.random() * 100) + 1;
+                        if(random_array.indexOf(r) === -1) random_array.push(r);
+                    }
+                    const myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: month_array,
+                            datasets: [{
+                                label: 'Your Water Usage Over The Last 13 Months',
+                                data: random_array,
+                                backgroundColor: "darkgray"
+                            }]
+                        },
+                        options: {
+                            plugins: {dragData: true},
+                            scales: {
+                                y: {
+                                    beginAtZero: false,
+                                    min: 0,
+                                    max: 100
+                                }
+                            }
+                        }
+                    });
+                    setTimeout(function(){
+                        chartToImage();
+                    }, 500);
+                }
+                function dataURLtoFile(dataurl, filename) {
+                    var arr = dataurl.split(','),
+                        mime = arr[0].match(/:(.*?);/)[1],
+                        bstr = atob(arr[1]), 
+                        n = bstr.length, 
+                        u8arr = new Uint8Array(n); 
+                    while(n--){
+                        u8arr[n] = bstr.charCodeAt(n);
+                    }
+                    return new File([u8arr], filename, {type:mime});
+                }
+
+                function chartToImage(){
+                    var canvas = document.getElementById("myChart");
+                    const user_id = document.getElementById('user_id').value;
+                    const application_number = document.getElementById('application_number').value;
+                    var dataURL = canvas.toDataURL();
+                    
+                    var file = dataURLtoFile(dataURL,application_number+"_"+user_id+"_Graph.png");
+                   
+                    const formData = new FormData();
+                    formData.append('file',file);
+                    fetch('/api/v1/utility/upload', {
+                        "method": "POST",
+                        body: formData
+                    }).then(response => response.json());
+                    jQuery("#chartImg").attr("src", "/"+application_number+"_"+user_id+"_Graph.png");
+                }
+                chart();
+            });
+        </script>
+    </body>
+</html>

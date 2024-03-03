@@ -1,0 +1,95 @@
+#!/usr/bin/env node
+
+const config = require("../env.json");
+const appSetting = require("../configs/appSetting");
+const ENVKEY = process.env.NODE_ENV || "development";
+const ENVCONFIG = config[ENVKEY];
+
+/*** ENV CONFIG TO PROCESS .ENV FILE*/
+Object.keys(ENVCONFIG).forEach(key => {
+  process.env[key] = ENVCONFIG[key];
+});
+
+console.log("\x1b[32m%s\x1b[0m",":::::: :::::::::::::::::::::::::::::::: ::::::::::::::::::::::::>");
+console.log("\x1b[32m%s\x1b[0m",`:::::: ::: RUNING ON [ ${ENVKEY.toUpperCase()} ]::: ::: ENVIRONMENT MODE :::>`);
+console.log("\x1b[32m%s\x1b[0m",":::::: :::::::::::::::::::::::::::::::: ::::::::::::::::::::::::>\n");
+
+/*** DATABASE CONNECTION*/
+(async function () {
+  await appSetting.connectDatabase();
+}());
+
+/*** LOAD GLOBAL VARIABLE*/
+global.payConfig = {};
+console.log("\x1b[32m%s\x1b[0m",":::::: :::::::::::::::::::::::::::::::: ::::::::::::::::::::::::>");
+console.log("\x1b[32m%s\x1b[0m",":::::: ::: [ GLOBAL CONFIG LOAD ] ::::: ::::::::::::::::::::::::>");
+console.log("\x1b[32m%s\x1b[0m",":::::: :::::::::::::::::::::::::::::::: ::::::::::::::::::::::::>");
+
+/*** CRON JOB SERVICE ENABLE*/
+// console.log("\x1b[36m%s\x1b[0m",":::::: :::::::::::::::::::::::::::::::: :::::::::::::::::::::::::::::::::::>");
+// console.log("\x1b[36m%s\x1b[0m",`:::::: ::: [ CRON SERVICE ] :: DATE ::: [${new Date().toUTCString()}] :::>`);
+// console.log("\x1b[36m%s\x1b[0m",":::::: :::::::::::::::::::::::::::::::: :::::::::::::::::::::::::::::::::::>");
+
+
+/*** Module dependencies.*/
+var app = require('../app');
+var http = require('http');
+
+/*** Get port from environment and store in Express.*/
+var port = normalizePort(process.env.PORT || '5000');
+app.set('port', port);
+
+/*** Create HTTP server.*/
+var server = http.createServer(app);
+
+/*** Listen on provided port, on all network interfaces.*/
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/*** Normalize a port into a number, string, or false.*/
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+  if (isNaN(port)) return val;
+  if (port >= 0) return port;
+  return false;
+}
+
+/*** Event listener for HTTP server "error" event.*/
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'? 'Pipe ' + port: 'Port ' + port;
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/*** Event listener for HTTP server "listening" event.*/
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  console.log('\x1b[36m%s\x1b[0m', `
+   #######   ##  ##     ##        ######    ######  ##     ##
+   ##    ##  ##  ##     ##        ##        ##      ####   ##
+   ##   ##   ##  ##     ##        ##        ##      ## ##  ##
+   ######    ##  ##     ##   ###  ## #####  ######  ##  ## ##
+   ##   ##   ##  ##     ##        ## ## ##  ##      ##   ####
+   ##    ##  ##  ##     ##        ## ## ##  ##      ##    ###
+   #######   ##  #####  #####     ##### ##  ######  ##     ##
+   `);
+  console.log('Listening on ' + bind);
+}

@@ -1,0 +1,104 @@
+<%- contentFor('HeaderCss') %>
+ <%- contentFor('body') %>
+ <!-- start bill content -->
+ <main data-form="UB">
+    <section class="review_hero d-flex align-items-center">
+        <div class="container">
+            <h2 class='text-capitalize text-white text-center font-size'>make your order</h2>
+        </div>
+    </section>
+    <section>
+        <div class="container order_summary">
+            <div class="p-3">
+
+                <div class="order_details">
+                    <table class=''>
+                        <thead class='table_header order_place'>
+                            <tr>
+                                <th>ORDER SUMMARY</th>
+                                <th class="text-end">DETAILS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colSpan="2" height="5" class='pb-4 order_border'>
+                                    <div></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='pt-4 pb-1'>Order Placed</td>
+                                <td class='pt-4 pb-1 text-end'><%= new Date().toLocaleDateString('en-GB', { month: '2-digit', day: '2-digit', year: 'numeric' }) %></td>
+                            </tr>
+                            <tr>
+                                <td class='pt-3 pb-1'>Order Id</td>
+                                <td  class='pt-3 pb-1 text-end'><%= orderSummary._id %></td>
+                            </tr>
+                            <tr>
+                                <td class='pt-3 pb-1'>Bill Type</td>
+                                <td  class='pt-3 pb-1 text-end'><%= orderSummary.bill_type %></td>
+                            </tr>
+                            <tr>
+                                <td class='pt-3 pb-1'>Shipping</td>
+                                <td class='pt-3 pb-1 text-end'>$0.00</td>
+                            </tr>
+                            <tr>
+                                <td class='pt-3 pb-1'>Amount</td>
+                                <td class='pt-3 pb-1 text-end'>$<%= orderSummary.payment_amount.toFixed(2) %></td>
+                            </tr>
+                            <tr class="discount_tr d-none">
+                                <td class='pt-3 pb-1'>Discount</td>
+                                <td  class='pt-3 pb-1 text-end discount'></td>
+                            </tr>
+                            <tr>
+                                <td colSpan="2" class='pt-5 order_border'><div></div></td>
+                            </tr>
+                            <tr>
+                                <td class='pt-4 pb-4'>Total Amount</td>
+                                <td class="pt-4 pb-4 text-end total_amount">$<%= orderSummary.payment_amount.toFixed(2) %></td>
+                            </tr>
+                            <% if(orderSummary.payment_amount.toFixed(2) != '0.00' || orderSummary.payment_amount != '0' ){ %>
+                                <tr>
+                                    <td align='center' class='p-4 pb-4' colSpan="2">
+                                        <div>
+                                            <div class="input-group mb-2">
+                                            <input type="text" class="form-control form_control" placeholder="Add Coupon" name="coupon" id="coupon"/>
+                                                <div class="d-flex">
+                                                    <button class="btn btn_coupon apply_coupon" id="apply_coupon" type="button">Apply Coupon</button>
+                                                    <button class="btn btn_coupon remove_coupon d-none" id="remove_coupon" type="button">Remove Coupon</button>
+                                                </div>                                           
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% } %>
+                            <% if(orderSummary.payment_amount.toFixed(2) != '0.00' || orderSummary.payment_amount != '0' ){ %>
+                                <tr class="payment-section">
+                                    <td align='center' class='pt-1 ' colspan="2">   
+                                        <button class='btn order_btn mb-5' id="pay_now">Pay Now</button>
+                                        <button class='btn order_btn mb-5' id="procced_now">Pay With Crypto</button>
+                                    </td>
+                                </tr>
+                            <% } %>
+                            <tr class="free-section">
+                                <td align='center' class='pt-1 'colspan="2">
+                                    <% if(orderSummary.payment_amount.toFixed(2) == '0.00' || orderSummary.payment_amount == '0' ){ %>
+                                        <button class='btn order_btn mb-5' id="purchase_now">Purchase Now</button>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                    
+                </div>
+                <input type="hidden" name="payment" id="payment" value="<%= orderSummary.payment_amount %>" />
+                <input type="hidden" name="new_amount" id="new_amount" value="<%= orderSummary.payment_amount %>" />
+                <input type="hidden" name="order_id" id="order_id" value="<%= orderSummary._id %>" />
+                <input type="hidden" name="progress_id" id="progress_id" value="<%= orderSummary.progress_id %>" />
+                <input type="hidden" name="form_name" id="form_name" value="<%= form_name %>" />
+            </div>
+        </div>
+    </section>
+ </main>
+ <!-- end bill content -->
+ <%- contentFor('FooterJs') %>
+ <script src="/javascript/javascript_v1.js"></script>
+ <script src="/javascript/orderSummary.js"></script>

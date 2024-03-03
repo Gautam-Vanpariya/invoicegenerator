@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>404 Error page  | Bill Generator </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="404 Error page" name="description" />
+    <!-- App favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon.ico">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <!-- Bootstrap v5.0.2 CSS -->
+    <link href="/plugins/bootstrap5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Custom CSS -->
+    <link href="/stylesheets/style.css" rel="stylesheet" type="text/css" /> 
+</head>
+<body>
+    <div class="account-pages my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center mb-5">
+                        <h1 class="display-2 fw-medium" style="color: #f0c000;">404</h1>
+                        <h4 class="text-uppercase">Sorry, page not found</h4>    
+                        <h6>
+                            <% if(typeof error!=="undefined" && error.length> 0) {%>
+                                <%=error%>
+                            <%}%>
+                        </h6>
+                        <div class="text-center">
+                            <a class="btn btn-primary waves-effect waves-light" href="/" style="background-color: #f0c000;border-color: #f0c000;">Back to Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-xl-6">
+                    <div>
+                        <img src="/image/error-img.png" alt="error-image" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="/plugins/jquery/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap Bundle with Popper JS -->
+    <script src="/plugins/bootstrap5/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

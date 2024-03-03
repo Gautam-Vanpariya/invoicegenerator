@@ -1,0 +1,85 @@
+<%- contentFor('HeaderCss') %>
+
+<%- contentFor('body') %>
+<main data-form="preview">
+    <section class="container mt-3">
+        <div style="margin: 0px auto 20px;background: #FFFFFF;border: 1px solid #000000;overflow-x: auto; "> 
+            <div style="padding: 15px;width: 1100px;max-width: 1100px;margin: 0 auto; position:relative;">
+                <%- html %>
+            </div>
+         </div>
+        <div class="btn-wrapper mb-3 text-center">
+            <button type="button" class="btn primary-btn btn-block px-5 pt-3 pb-3" id="checkOut">CHECKOUT</button>
+        </div>
+    </section>
+    
+    <input type="hidden" name="user_id" id="user_id" value="<%- progress_data.user_id %>"/>
+    <input type="hidden" name="progress_id" id="progress_id" value="<%- progress_data.progress_id %>" />
+    <input type="hidden" name="bill_type" id="bill_type" value="<%- progress_data.bill_type %>" />
+
+    <section class="loader-wrapper" id="show_loader">
+        <div class="loader-inner">
+            <div class="loader">
+                <span style="--i: 6"></span>
+                <span style="--i: 7"></span>
+                <span style="--i: 8"></span>
+                <span style="--i: 9"></span>
+                <span style="--i: 10"></span>
+                <span style="--i: 11"></span>
+                <span style="--i: 12"></span>
+                <span style="--i: 13"></span>
+                <span style="--i: 14"></span>
+                <span style="--i: 15"></span>
+                <span style="--i: 16"></span>
+                <span style="--i: 17"></span>
+                <span style="--i: 18"></span>
+                <span style="--i: 19"></span>
+                <span style="--i: 20"></span>
+            </div>
+        </div>
+    </section>
+</main>
+<!-- end account-pages -->    
+<%- contentFor('FooterJs') %>
+<script>
+    $(function(){
+        localStorage.removeItem('preview');
+
+        $(document).on("click","#checkOut",function(){
+            $("#show_loader").fadeIn(); 
+            if($("#user_id").val() === undefined || $("#user_id").val() === ''){
+                var user_id = null;
+            }else{
+                var user_id = $("#user_id").val();
+            }
+
+            const sendingData = {
+                "user_id": user_id,
+                "progress_id": $("#progress_id").val(),
+                "bill_type": $("#bill_type").val()
+            }
+
+            $.ajax({
+                url: '/checkout/orderSummary',
+                method: 'POST',
+                contentType: "application/json",
+                data: JSON.stringify(sendingData),
+                success: function (response) {
+                    console.log(response);
+                    if (response.success == true) {  
+                        var order_id = response.data._id;
+                        window.location.href = '/application-success?order_id='+order_id;
+                        $("#show_loader").fadeOut();
+                    } else {
+                        toastr.error(response.message);
+                        $("#show_loader").fadeOut();
+                    }
+                },
+                error: function (err) {
+                    toastr.error(err.responseJSON?.message || "something went wrong.");
+                    $("#show_loader").fadeOut();
+                }
+            });
+        });       
+    })
+</script>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title><%- title %> | Bill Generator </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="<%-metaDescription%>" />
+	<% if(noindex && noindex==true) { %>
+	<meta name='robots' content='noindex, nofollow' />
+	<% } %>
+	<% if(url && url !="" ) { %>
+	<link rel="canonical" href="<%-url%>" />
+	<% } %>
+	<%- include('./partials/faviconLink') %>
+	<%- include('./partials/headerStyle') %>
+	<% if(env && env==true) { %>
+	<%- include('./partials/chatBot') %>
+	<%- include('./partials/analytics') %>
+	<% } %>
+	<%- HeaderCss %>
+</head>
+
+<body>
+	<!-- ============================================================== -->
+	<!-- START -- HEADER -->
+	<!-- ============================================================== -->
+	<%- include('./partials/navbar') %>
+	<!-- ============================================================== -->
+	<!-- END -- HEADER -->
+	<!-- ============================================================== -->
+
+	<!-- ============================================================== -->
+	<!-- START -- BODY CONTENT -->
+	<!-- ============================================================== -->
+	<%- body %>
+	<!-- ============================================================== -->
+	<!-- END -- BODY CONTENT -->
+	<!-- ============================================================== -->
+
+	<!-- ============================================================== -->
+	<!-- START -- BOTTOM HTML CODE -->
+	<!-- ============================================================== -->
+	<%- include('./partials/bottomCode') %>
+	<!-- ============================================================== -->
+	<!-- END -- BOTTOM HTML CODE -->
+	<!-- ============================================================== -->
+
+	<!-- ============================================================== -->
+	<!-- START -- FOOTER -->
+	<!-- ============================================================== -->
+	<%- include('./partials/footerContent') %>
+	<!-- ============================================================== -->
+	<!-- END -- FOOTER -->
+	<!-- ============================================================== -->
+
+	<%- include('./partials/footerScript') %>
+	<%- FooterJs %>
+
+
+	<% if(typeof error!=="undefined" && error.length> 0) { %>
+	<script>
+		toastr.error(`<%-error%>`);
+	</script>
+	<% } %>
+	<% if(typeof message!=="undefined" && message.length> 0) { %>
+	<script>
+		toastr.success(`<%-message%>`);
+	</script>
+	<% } %>
+</body>
+
+</html>

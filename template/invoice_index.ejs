@@ -1,0 +1,243 @@
+<!DOCTYPE html>    
+<html lang='en'>
+    <head>
+        <link rel='preconnect' href='https://fonts.googleapis.com'>
+        <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+        <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap' rel='stylesheet'>        
+        <style>            
+            @page {                
+                margin: 20
+            }
+            * {
+                box-sizing:border-box
+            }        
+        </style>
+   </head>
+       
+   <body style='font-family:Poppins,sans-serif;font-style:normal;margin:0; font-size: 12px;'>
+    <div id='check-preview' style='font-family:Arial;font-size:13px;line-height:normal;padding:30px;position:relative;width:100%;'>
+        <table style='color:#333;font-family:Arial;font-size:12px;' cellpadding='0' cellspacing='0' width='100%'> 
+            <tr>                            
+                <td width='50%' valign='top'>                           
+                    <h2 style='font-size:22px;'><%= result.invoice_title %></h2>                     
+                </td>             
+                <td width='50%' valign='top' height='120' style='text-align:right;'>
+                    <% if(result.logo_path){  %>
+                        <% if(type == 'preview' || type == 'preview_app'){  %>
+                            <img src='<%= process.env.HOST%><%= result.logo_path %>' alt='logo'
+                            style='width:50%; max-height:150px;object-fit:cover;'>
+                        <% } else { %> 
+                            <img src='<%= process.env.IMAGE_PATH%><%= result.logo_path %>' alt='logo'
+                            style='width:50%; max-height:150px;object-fit:cover;'>
+                        <% } %>
+                    <% } %> 
+                </td>           
+            </tr>  
+            <tr>                            
+                <td colspan='2' height='20'>&nbsp;</td>                        
+            </tr>                
+        </table>
+
+        <div style='display:flex'>
+            <div  style='float:left; width:50%'>
+                <div style='font-size: 14px; font-weight: 700; margin-bottom:10px; font-weight:bold; '>
+                    <span>From</span>
+                </div>
+                <div>
+                    <h2 style=' font-size: 18px; font-weight: 700;font-weight:bold; margin-bottom: 5px;' class='from_name'><%= result.from_name %></h2>
+                </div>
+                <div style='margin-bottom: 5px;'><span mailto:class='from_gst_number'>GST Number : <%= result.from_gst_number %></span></div>
+                <div style='margin-bottom: 5px;'><span mailto:class='from_email'><%= result.from_email %></span></div>
+                <div style='margin-bottom: 5px;'>
+                    <span><%= result.from_street_address_1 %></span>, 
+                    <% if(result.from_street_address_2){ %>
+                        <span><%= result.from_street_address_2 %></span>, 
+                    <% }%>                   
+                    <span><%= result.from_city %></span>, 
+                    <span><%= result.from_state %></span>, 
+                    <span><%= result.from_zip_code %></span>
+                </div>
+                <% if(result.from_phone){  %>
+                    <div style='margin-bottom: 5px;'>
+                        <span>Phone Number: &nbsp;</span>
+                        <span><%= result.from_phone %></span>
+                    </div>
+                <% } %> 
+                <% if(result.from_business_number){  %>
+                    <div>
+                        <span>Business Number: &nbsp;</span>
+                        <span><%= result.from_business_number %></span>
+                    </div>
+                <% } %> 
+            </div>
+
+            <div>
+                <div style='font-size: 14px; font-weight: 700; margin-bottom:10px; font-weight:bold;'>
+                <span>To</span>
+                </div>
+                <div>
+                    <h2 style='font-size: 18px; font-weight: 700; font-weight:bold; margin-bottom: 6px;'><%= result.to_name %></h2>
+                    <div style='margin-bottom: 6px;'><span mailto:class='to_gst_number'>GST Number : <%= result.to_gst_number %></span>
+                </div>
+                    <div style='margin-bottom: 6px;'><span mailto:class='to_email'><%= result.to_email %></span>
+                </div>
+                <div style='margin-bottom: 6px;'>
+                    <span><%= result.to_street_address_1 %></span>, 
+                    <% if(result.to_street_address_2){ %>
+                        <span><%= result.to_street_address_2 %></span>, 
+                    <% }%>       
+                    <span><%= result.to_city %></span>, 
+                    <span><%= result.to_state %></span>, 
+                    <span><%= result.to_zip_code %></span>
+                </div>
+                <% if(result.to_phone){  %>
+                    <div style='margin-bottom: 6px;'>
+                        <span>Phone Number:&nbsp;</span><span><%= result.to_phone %></span>
+                    </div>
+                <% } %> 
+                
+            </div>
+        </div>
+        <hr style='margin-top: 27px; margin-bottom: 31px; opacity: unset;' />
+        <div style='margin-bottom: 31px;'>
+            <div>
+                <div  style='display:flex'>
+                    <div style='width:8%; float:left'>
+                        <span>Number:</span>
+                    </div>
+                    <div>
+                        <span><%= result.from_number %></span>
+                    </div>
+                </div>
+                <div  style='display:flex'>
+                    <div style='width:8%; float:left'>
+                        <span >Date:</span>
+                    </div>
+                    <div style='width:90%;'>
+                        <span><%= result.from_date %></span>
+                    </div>
+                </div>
+                <% if(result.from_terms != 'none'){  %>
+                    <div style='display:flex;'>
+                        <div style='width:8%; float:left'>
+                            <span>Terms:</span>
+                        </div>
+                        <div style='width:90%;'>
+                            <span><%= result.from_terms %></span>
+                        </div>
+                    </div>
+                <% } %> 
+                <% if(result.from_terms != "" && result.from_terms != 'none' && result.from_terms != "on_receipt"){  %>    
+                    <div style='display:flex;'>
+                        <div style='width:8%; float:left'>
+                            <span >Due:</span>
+                        </div>
+                        <div style='width:90%;'>
+                            <span ><%= result.from_due_date %></span>
+                        </div>
+                    </div>    
+                <% } %> 
+            </div>
+        </div>
+
+        <table style='color:#333;font-family:Arial;font-size:16px;' cellpadding='0' cellspacing='0' width='100%'>                                          
+            <thead>                   
+             <tr>                                
+                <th style='background:#DEDEDE;border-top:1px solid;border-bottom:1px solid;padding:6px;padding-left:15px;text-align:left;width:100%;'>Description</th>                                
+                <th style='background:#DEDEDE;border-top:1px solid;border-bottom:1px solid;padding:6px;text-align:right;'>Rate</th> 
+                <th style='background:#DEDEDE;border-top:1px solid;border-bottom:1px solid;padding:6px;text-align:right;'>Qty</th>   
+                <% if(result.tax_type == "per item"){ %>
+                    <th style='background:#DEDEDE;border-top:1px solid;border-bottom:1px solid;padding:6px;padding-right:15px;text-align:right;'>Item Tax</th>                            
+                <% } %>
+                <th style='background:#DEDEDE;border-top:1px solid;border-bottom:1px solid;padding:6px;padding-right:15px;text-align:right;width:120px;'>Amount</th>                            
+            </tr>              
+            </thead>                                   
+            <tbody>   
+                <% var item = result.items; %>
+                <% Object.keys(item).forEach(function(key){ 
+                    var item_data = item[key];   
+                    var item_description = item_data.item_description;
+                    var item_hsnCode = item_data.item_hsnCode;
+                    var item_additional_details = item_data.item_additional_details;
+                    var item_rate = item_data.item_rate;
+                    var item_qty = item_data.item_qty;
+                    var item_amount = item_data.item_amount;
+                    var per_item_tax = item_data.per_item_tax;                %>     
+                
+                <tr>
+                    <td style='border-bottom:1px solid;padding:8px 6px 8px 15px;text-align:left;' valign='top'>
+                        <h4 style='margin:10px'><%= item_description %></h4>
+                        <p style='margin:10px'>HSN: <%= item_hsnCode %></p>
+                        <p style='margin:10px'><%= item_additional_details %></p>
+                    </td>
+                    <td style='border-bottom:1px solid;padding:8px 6px;text-align:right;width: auto;' valign='top'><p style='margin:10px'>&#8377;<%= item_rate %></p></td>
+                    <td style='border-bottom:1px solid;padding:8px 6px;text-align:right;width: auto;' valign='top'><p style='margin:10px'><%= item_qty %></p></td>
+                    <% if(result.tax_type == "per item"){ %>
+                        <td style='border-bottom:1px solid;padding:8px 15px 8px 6px;text-align:right;width: auto;' valign='top'><p style='margin:10px'>&#8377;<%= per_item_tax %></p></td>
+                    <% } %>
+                    <td style='border-bottom:1px solid;padding:8px 15px 8px 6px;text-align:right;width: auto;' valign='top'><p style='margin:10px'>&#8377;<%= item_amount %></p></td></tr>
+                <% }) %>
+            </tbody>                                  
+        </table> 
+
+        <table align='right' style='color:#333;text-align:right;margin-top:10px'>
+            <tr>
+                <td style='padding-right:40px'><div>Subtotal</div></td>
+                <td style='padding-right:8px'><div><span>&#8377;<span><%= result.sub_total; %></span></span></div></td>
+            </tr>
+            
+            <% if(result.tax_type != 'per item' && result.discount_type != "none"){ %>
+                <tr>
+                    <% if(result.discount_type == "percent"){ %>
+                        <td style='padding-right:40px'><div>Discount (<%= result.discount_rate %>%)</div></td>
+                    <% } else { %>
+                        <td style='padding-right:40px'><div>Discount</div></td>
+                    <% } %>
+                    <td style='padding-right:8px'><div><span>- &#8377;<span><%= result.total_discount; %></span></span></div></td>
+                </tr>                    
+            <% } %>  
+            <% if(result.tax_type == 'on total' || result.tax_type == 'deducted' || result.tax_type == 'per item'){ %>
+                <tr>
+                    <% if(result.tax_type == "on total"){ %>
+                        <td style='padding-right:40px'>+ Tax (<%= result.tax_rate %>%)</td>
+                        <td style='padding-right:8px'><div><span>+ &#8377;<span><%= result.total_tax; %></span></span></div></td>
+                    <% } else if(result.tax_type == "deducted"){ %>
+                        <td style='padding-right:40px'>- Tax (<%= result.tax_rate %>%)</td>
+                        <td style='padding-right:8px'><div><span>- &#8377;<span><%= result.total_tax; %></span></span></div></td>
+                    <% } else if(result.tax_type == "per item"){ %>
+                        <td style='padding-right:40px'>+ Tax</td>
+                        <td style='padding-right:8px'><div><span>+ &#8377;<span><%= result.total_tax; %></span></span></div></td>
+                    <% } %>
+                </tr>
+            <% } %>
+            <% if(result.tax_type == 'per item' && result.discount_type != "none"){ %>
+                <tr>
+                    <% if(result.discount_type == "percent"){ %>
+                        <td style='padding-right:40px'><div>Discount (<%= result.discount_rate %>%)</div></td>
+                    <% } else { %>
+                        <td style='padding-right:40px'><div>Discount</div></td>
+                    <% } %>
+                    <td style='padding-right:8px'><div><span>- &#8377;<span><%= result.total_discount; %></span></span></div></td>
+                </tr>                    
+            <% } %> 
+            <tr>
+                <td style='padding-right:40px'><div>Total</div></td>
+                <td style='padding-right:8px'><div><span>&#8377;<span><%= result.total; %></span></span></div></td>
+            </tr>
+            <tr>
+                <td style='padding-right:40px'><div style='font-size: 15px; font-weight: 600;font-weight:bold'>Balance Due</div></td>
+                <td style='padding-right:8px'> <div><strong style='font-size: 15px; font-weight: 600; font-weight:bold;'>&#8377;<span><%= result.balance_due; %></span></strong></div></td>
+            </tr>
+        </table>
+        <hr style='width: 100%;'/>
+
+        <% if(result.invoice_note != ""){ %>    
+            <div style='padding-top:10px;'>
+                <p>Notes - <span><%= result.invoice_note; %></span></p>
+            </div>
+       <% } %>
+
+    </div>
+
+   </body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title><%-title%> | Bill Generator </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="<%-metaDescription%>" />
+	<% if(noindex && noindex == true){ %>
+	<meta name='robots' content='noindex, nofollow' />
+	<% }%>
+	<% if(url && url != ""){ %>
+	<link rel="canonical" href="<%-url%>" />
+	<% }%>
+	<%- include('./partials/faviconLink') %>
+
+	<% if(isPreview) { %>
+		<style>
+			/* Style the empty variables */
+			.empty-var {
+				display: inline-block;
+				width: 200px;
+				border-bottom: 1px solid #999;
+				height: 20px;
+				background: #e2e2e2;
+			}
+		</style>
+	<% } %>
+	<style>
+
+		body::-webkit-scrollbar {
+			height: 6px;
+			width: 6px;
+			background: #EFEFEF;
+		}
+
+		body::-webkit-scrollbar-thumb {
+			background: #999;
+			-webkit-border-radius: 6px;
+		}
+
+		body::-webkit-scrollbar-corner {
+			background: #000;
+		}
+
+		.WordSection1 {
+			overflow: hidden
+		}
+	</style>
+
+	<script>
+		function disableRightClick() {
+			window.oncontextmenu = (e) => {
+				e.preventDefault();
+			}
+		}
+
+		window.addEventListener('load', function() {
+			disableRightClick();
+
+			var displayPlaceHolderText = '';
+			var displayUnderscores = '';
+			var emptyVars = document.querySelectorAll('.empty-var');
+			if (displayPlaceHolderText || displayUnderscores) {
+				for (var i = 0; i < emptyVars.length; i++) {
+					var replacementText = '________________________';
+					if (displayPlaceHolderText) {
+						var variableName = emptyVars[i].classList[1].toUpperCase();
+						// Check for _LC, _SC, _UC, _0, and _0_CFDY ending
+						if (variableName.endsWith('_LC') || variableName.endsWith('_SC') || variableName.endsWith('_UC')) {
+							variableName = variableName.substring(0, variableName.length - 3);
+						} else if (variableName.endsWith('_0')) {
+							variableName = variableName.substring(0, variableName.length - 2);
+						} else if (variableName.endsWith('_0_CFDY')) {
+							variableName = variableName.substring(0, variableName.length - 7);
+						}
+						replacementText = '[' + variableName + ']';
+					}
+					emptyVars[i].innerHTML = replacementText + emptyVars[i].innerHTML;
+					emptyVars[i].classList.remove('empty-var');
+				}
+			}
+		}, false);
+	</script>
+</head>
+
+<body>
+	<!-- ============================================================== -->
+	<!-- START -- BODY CONTENT -->
+	<!-- ============================================================== -->
+	<%- body %>
+	<!-- ============================================================== -->
+	<!-- END -- BODY CONTENT -->
+	<!-- ============================================================== -->
+
+	<script>
+	window.addEventListener('message', function(event) {
+		if (typeof event.data == 'object' && event.data.eventName == "DocFieldValUpdated") {
+			for (var fieldName of Object.keys(event.data.fields)) {
+				var fieldVal = event.data.fields[fieldName];
+				document.querySelectorAll("[data-fieldname='" + fieldName + "']").forEach((placeholderEle) => {
+					placeholderEle.innerHTML = fieldVal;
+					placeholderEle.classList.remove('empty-var');
+				});
+				document.querySelectorAll("[data-elementname='" + fieldName + "']").forEach((placeholderEle) => {
+					if(placeholderEle.dataset.elementvalue){
+						if (fieldVal != placeholderEle.dataset.elementvalue) {
+							placeholderEle.style.display = "none";
+						} else {
+							placeholderEle.style.display = "";
+						}
+					} else {
+						if (fieldVal != "Yes") {
+							placeholderEle.style.display = "none";
+						} else {
+							placeholderEle.style.display = "";
+						}
+					}
+				});
+				let elementrepeaterWrapper = document.querySelector("[data-elementrepeater-wrapper='" + fieldName + "']");
+				let elementrepeaterTemplate = document.querySelector("[data-elementrepeater-template='" + fieldName + "']");
+				if (elementrepeaterWrapper && elementrepeaterTemplate) {
+					elementrepeaterWrapper.innerHTML = "";
+					if (Array.isArray(fieldVal)) {
+
+						if (fieldVal.length == 0) {
+							let clonedElement = elementrepeaterTemplate.cloneNode(true);
+							elementrepeaterWrapper.appendChild(clonedElement);
+							clonedElement.querySelectorAll("[data-fieldname='" + fieldName + "']").forEach((placeholderEle) => {
+								placeholderEle.innerHTML = fieldVal;
+								placeholderEle.classList.add('empty-var');
+							});
+						} else {
+							for (var i = 0; i < fieldVal.length; i++) {
+								let clonedElement = elementrepeaterTemplate.cloneNode(true);
+								elementrepeaterWrapper.appendChild(clonedElement);
+								clonedElement.querySelectorAll("[data-fieldname='" + fieldName + "']").forEach((placeholderEle) => {
+									placeholderEle.innerHTML = fieldVal[i];
+									placeholderEle.classList.remove('empty-var');
+								});
+							}
+						}
+
+					} else if (!isNaN(fieldVal)) {
+						fieldVal = parseInt(fieldVal);
+						for (var i = 0; i < fieldVal; i++) {
+							elementrepeaterWrapper.appendChild(elementrepeaterTemplate.cloneNode(true));
+						}
+					}
+				}
+			}
+		}
+	}, false);
+
+	var last_filled_data = <%-JSON.stringify(last_filled_data) %>;
+
+	var postMessageData = {
+		eventName: "DocFieldValUpdated",
+		fields: last_filled_data
+	};
+
+	//window.postMessage(postMessageData);
+	</script>
+</body>
+
+</html>
