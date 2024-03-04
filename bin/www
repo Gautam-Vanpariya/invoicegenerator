@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// const config = require("../env.json");
+const config = require("../env.json");
 const appSetting = require("../configs/appSetting");
 const ENVKEY = process.env.NODE_ENV || "development";
 const ENVCONFIG = config[ENVKEY];
