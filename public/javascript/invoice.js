@@ -596,8 +596,8 @@ $(function () {
 			},
 			from_zip_code: {
 				digits: true,
-				minlength: 5,
-				maxlength: 5
+				minlength: 6,
+				maxlength: 6
 			},
 			from_phone: {
 				minlength: 5,
@@ -618,8 +618,8 @@ $(function () {
 			},
 			to_zip_code: {
 				digits: true,
-				minlength: 5,
-				maxlength: 5
+				minlength: 6,
+				maxlength: 6
 			},
 			to_phone: {
 				minlength: 5,
@@ -779,6 +779,7 @@ $(function () {
 	})
 
 	$(document).on("change", "#from_name, #from_email, #from_street_address_1, #from_street_address_2, #from_city, #from_state, #from_zip_code, #from_phone, #business_number", function () {
+		debugger;
 		var val = $(this).val();
 		var name = $(this).attr("name");
 		var text = $(this).attr("data-val");
