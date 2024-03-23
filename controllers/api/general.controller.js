@@ -80,12 +80,16 @@ module.exports = {
              if (validationError) return res.status(300).json({ success: false, message: validationError.message, error: "validation error", data: null });
 
             var taxRate = payload.taxRate;
+            var cgstRate = payload.cgstRate;
+            var sgstRate = payload.sgstRate;
             var taxType = payload.tax_type;
             var discount_type = payload.discount_type;
             var discountRate = payload.discountRate;
 
 
             var totalTaxAmount = 0;
+            var cgstTaxAmount = 0;
+            var sgstTaxAmonut = 0;
             var total = 0;
             var balance_due = 0;
             var subTotal = 0;
@@ -103,7 +107,6 @@ module.exports = {
 
                 var item_qty = item.item_qty;
                 var item_tax = item.item_tax;
-                var per_item = item.per_item_tax;
 
                ////// SUBTOTAL /////
                 var invoice_amount = item_rate * item_qty;
@@ -115,20 +118,24 @@ module.exports = {
 
                ////// TAX /////
                 if(item_tax== "checked"){
-                    if((taxType == TAX_TYPE.ONTOTAL || taxType == TAX_TYPE.DEDUCTED) && (taxRate!='' && taxRate!="0")){
-                        if(discount_type == DISCOUNT_TYPE.PERCENT && (discountRate!='' && discountRate!='0'))
+                    if((taxType == TAX_TYPE.ONTOTAL) && (taxRate!='' && taxRate!="0")){
+                        if(discount_type == DISCOUNT_TYPE.PERCENT && (discountRate!='' && discountRate!='0')) {
                             totalTaxAmount = totalTaxAmount + ((invoice_amount - ((invoice_amount*discountRate)/100)) * taxRate) / 100;
-                        else if(discount_type == DISCOUNT_TYPE.FLOAT_AMOUNT && (discountRate !='' && discountRate !="0"))
+                            cgstTaxAmount = cgstTaxAmount + ((invoice_amount - ((invoice_amount*discountRate)/100)) * cgstRate) / 100;
+                            sgstTaxAmonut = sgstTaxAmonut + ((invoice_amount - ((invoice_amount*discountRate)/100)) * sgstRate) / 100;
+                        }
+                        else if(discount_type == DISCOUNT_TYPE.FLOAT_AMOUNT && (discountRate !='' && discountRate !="0")) {
                             totalTaxAmount = (totalTaxAmount) + (((invoice_amount) - ((discountRate)/(length))) * (taxRate)) / 100;
-                        else
+                            cgstTaxAmount = (cgstTaxAmount) + (((invoice_amount) - ((discountRate)/(length))) * (cgstRate)) / 100;
+                            sgstTaxAmonut = (sgstTaxAmonut) + (((invoice_amount) - ((discountRate)/(length))) * (sgstRate)) / 100;
+
+                        }
+                        else {
                             totalTaxAmount = (totalTaxAmount) + ((invoice_amount) * (taxRate)) / 100;
-                    }else if((taxType == TAX_TYPE.PER_ITEM) && (per_item!='' && per_item!="0")){
-                        if(discount_type == DISCOUNT_TYPE.PERCENT && (discountRate!='' && discountRate!='0'))
-                            totalTaxAmount = totalTaxAmount + ((invoice_amount - ((invoice_amount*discountRate)/100)) * per_item) / 100;
-                        else if(discount_type == DISCOUNT_TYPE.FLOAT_AMOUNT && (discountRate !='' && discountRate !="0"))
-                            totalTaxAmount = (totalTaxAmount) + (((invoice_amount) - ((discountRate)/(length))) * (per_item)) / 100;
-                        else
-                            totalTaxAmount = (totalTaxAmount) + ((invoice_amount) * (per_item)) / 100;
+                            cgstTaxAmount = (cgstTaxAmount) + ((invoice_amount) * (cgstRate)) / 100;
+                            sgstTaxAmonut = (sgstTaxAmonut) + ((invoice_amount) * (sgstRate)) / 100;
+
+                        }
                     }
                 }
 
@@ -139,6 +146,8 @@ module.exports = {
             });
 
             outputInvoice['total_tax'] = numberWithCommas(roundoff(parseFloat(totalTaxAmount).toFixed(2)));
+            outputInvoice['cgst_tax'] = numberWithCommas(roundoff(parseFloat(cgstTaxAmount).toFixed(2)));
+            outputInvoice['sgst_tax'] = numberWithCommas(roundoff(parseFloat(sgstTaxAmonut).toFixed(2)));
 
             ////// DISCOUNT /////
             if(discount_type !== DISCOUNT_TYPE.NONE){
@@ -156,7 +165,7 @@ module.exports = {
             }
 
             ////// TOTAL /////
-            if(taxType == TAX_TYPE.ONTOTAL || taxType == TAX_TYPE.PER_ITEM){
+            if(taxType == TAX_TYPE.ONTOTAL){
                 total = total + totalTaxAmount;
                 balance_due = balance_due + totalTaxAmount;
             }else if(taxType == TAX_TYPE.DEDUCTED){

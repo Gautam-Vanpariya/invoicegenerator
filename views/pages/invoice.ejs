@@ -31,15 +31,15 @@
 					</div>
 					<div class="btn-wrapper save_load_btn">
 						<div class="row g-2">
-							<div class="col col-md-4 mb-1">
+							<!-- <div class="col col-md-4 mb-1">
 								<button type="button" class="btn primary-btn btn-block p-3 w-100 save_draft" disabled
 									id="save_draft">SAVE TEMPLATE</button>
 							</div>
 							<div class="col col-md-4 mb-1">
 								<button type="button" class="btn primary-btn btn-block p-3 w-100 load_template"
 									data-document="Invoice" id="load_template">LOAD TEMPLATE</button>
-							</div>
-							<div class="col col-md-4 mb-1">
+							</div> -->
+							<div class="col col-md-12 mb-1">
 								<button type="button" class="btn primary-btn btn-block p-3 w-100 checkOut"
 									id="checkOut">CHECKOUT</button>
 							</div>
@@ -331,15 +331,27 @@
 											name="tax_type" id="tax_type">
 											<option value="on total" selected="">On Total</option>
 											<option value="deducted">Deducted</option>
-											<option value="per item">Per Item</option>
+											<!-- <option value="per item">Per Item</option>  -->
 											<option value="none">None</option>
 										</select>
 									</div>
 
-									<div class="p-1 border border-bottom-0 tax_rate_div">
-										<label class="form-label"><strong>Tax Rate</strong></label>
-										<input type="text" name="tax_rate" id="tax_rate" value="0" maxlength="30"
-											class="form-control form_control border-blue">
+									<div class="d-flex">
+										<div class="col col-lg-4 p-1 border border-bottom-0 cgst_rate_div">
+											<label class="form-label"><strong>CGST</strong></label>
+											<input type="text" name="cgst_rate" id="cgst_rate" value="0" maxlength="30"
+												class="form-control form_control border-blue">
+										</div>
+										<div class="col col-lg-4 p-1 border border-bottom-0 sgst_rate_div">
+											<label class="form-label"><strong>UTGST/SGST</strong></label>
+											<input type="text" name="sgst_rate" id="sgst_rate" value="0" maxlength="30"
+												class="form-control form_control border-blue">
+										</div>
+										<div class="col col-lg-4 p-1 border border-bottom-0 tax_rate_div">
+											<label class="form-label"><strong>Tax Rate</strong></label>
+											<input type="text" name="tax_rate" id="tax_rate" value="0" maxlength="30"
+												class="form-control form_control border-blue">
+										</div>
 									</div>
 
 									<div class="p-1 border border-bottom-0">
@@ -400,11 +412,23 @@
 												class="total_discount">0.00</span></span></div>
 									<input type="hidden" name="total_discount" placeholder="0" value="0.00">
 								</div>
-								<div class="pe-4 d-flex justify-content-end total_tax_div">
+								<div class="pe-4 d-flex justify-content-end d-none total_tax_div">
 									<div class="invoice_summary-label">Tax (0%)</div>
 									<div class="invoice_summary"><span class="tax-sign">+ &#8377;</span><span
 											class="total_tax">0.00</span></div>
 									<input type="hidden" name="total_tax" placeholder="0" value="0.00">
+								</div>
+								<div class="pe-4 d-flex justify-content-end cgst_tax_div">
+									<div class="invoice_summary-label">CGST (0%)</div>
+									<div class="invoice_summary"><span class="tax-sign">+ &#8377;</span><span
+											class="cgst_tax">0.00</span></div>
+									<input type="hidden" name="cgst_tax" placeholder="0" value="0.00">
+								</div>
+								<div class="pe-4 d-flex justify-content-end sgst_tax_div">
+									<div class="invoice_summary-label">UTGST/SGST (0%)</div>
+									<div class="invoice_summary"><span class="tax-sign">+ &#8377;</span><span
+											class="sgst_tax">0.00</span></div>
+									<input type="hidden" name="sgst_tax" placeholder="0" value="0.00">
 								</div>
 								<div class="pe-4 hidden d-flex justify-content-end d-none total_discount_per_item_sec">
 									<div class="invoice_summary-label">Discount (0%)</div>
@@ -435,7 +459,8 @@
 												relevant information not covered, additional terms and conditions
 											</label>
 											<textarea class="form-control form_control border-blue h-100"
-												style="resize: none;" rows="6" name="invoice_note" value="This is computer generated invoice no signature required"
+												style="resize: none;" rows="6" name="invoice_note"
+												value="This is computer generated invoice no signature required"
 												id="invoice_note"></textarea>
 										</div>
 									</div>
@@ -456,15 +481,15 @@
 				<div class="bill_part position-relative mt-0">
 					<div class="btn-wrapper save_load_btn">
 						<div class="row g-2">
-							<div class="col col-md-4 mb-1">
+							<!-- <div class="col col-md-4 mb-1">
 								<button type="button" class="btn primary-btn btn-block p-3 w-100 save_draft"
 									id="save_draft_btn" disabled>SAVE TEMPLATE</button>
 							</div>
 							<div class="col col-md-4 mb-1">
 								<button type="button" class="btn primary-btn btn-block p-3 w-100 load_template"
 									data-document="Invoice" id="load_template_btn">LOAD TEMPLATE</button>
-							</div>
-							<div class="col col-md-4 mb-1">
+							</div> -->
+							<div class="col col-md-12 mb-1">
 								<button type="button" class="btn primary-btn btn-block p-3 w-100 checkOut"
 									id="checkOut_btn">CHECKOUT</button>
 							</div>
@@ -831,8 +856,13 @@
 							$("#to_phone").val("");
 							$("#to_state").val("Gujarat");
 						}
-
-
 					});
+
+					$("#cgst_rate, #sgst_rate").on('keyup', function () {
+						var cgst = Number($("#cgst_rate").val() ?? 0) ;
+						var sgst = Number($("#sgst_rate").val() ?? 0);
+
+						$("#tax_rate").val(cgst + sgst);
+					})
 				});
 			</script>

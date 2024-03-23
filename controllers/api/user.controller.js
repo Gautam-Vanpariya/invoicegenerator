@@ -98,7 +98,7 @@ module.exports = {
 						console.log('PDF created successfully at:', res.filename);
 					}
 				});
-				// return res.status(301).json({ success: false, message: "Something went wrong", error: null, data: null });
+				//return res.status(301).json({ success: false, message: "Something went wrong", error: null, data: null });
 
 				// pdf.create is calling async way and we assume it alwasys generate PDF
 				generatePDFFileResponse = {

@@ -16,6 +16,8 @@ exports.calculateInvoice_validate = data => {
     discountRate      : Joi.number().allow(null, ''),
     tax_type          : Joi.string().trim().lowercase().valid(...Object.values(TAX_TYPE)).required(),
     taxRate           : Joi.number().allow(null, ''),
+    cgstRate           : Joi.number().allow(null, ''),
+    sgstRate           : Joi.number().allow(null, ''),
     invoice_data      : Joi.object().required().not({})
   });
 

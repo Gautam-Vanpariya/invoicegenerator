@@ -61,6 +61,8 @@ $(function () {
 	function calcTotal() {
 		var tax_type = $("#tax_type").val();
 		var tax_rate = $("#tax_rate").val();
+		var cgst_rate = $("#cgst_rate").val();
+		var sgst_rate = $("#sgst_rate").val();
 		var discount_type = $("#discount_type").val();
 		var discount_rate = $("#discount_rate").val();
 		var obj = {};
@@ -85,6 +87,8 @@ $(function () {
 			"tax_type": tax_type,
 			"discount_type": discount_type,
 			"taxRate": tax_rate,
+			"cgstRate": cgst_rate,
+			"sgstRate": sgst_rate,
 			"discountRate": discount_rate,
 			"invoice_data": obj
 		};
@@ -229,12 +233,16 @@ $(function () {
 				to_phone: $('#to_phone').val(),
 				tax_type: $('#tax_type').val(),
 				tax_rate: $('#tax_rate').val(),
+				cgst_rate: $("input[name='cgst_rate']").val(),
+				sgst_rate: $("input[name='sgst_rate']").val(),
 				discount_type: $('#discount_type').val(),
 				discount_rate: $('#discount_rate').val(),
 				total: $("input[name='total']").val(),
 				sub_total: $("input[name='sub_total']").val(),
 				total_discount: $("input[name='total_discount']").val(),
 				total_tax: $("input[name='total_tax']").val(),
+				cgst_tax: $("input[name='cgst_tax']").val(),
+				sgst_tax: $("input[name='sgst_tax']").val(),
 				balance_due: $("input[name='balance_due']").val(),
 				items: obj,
 			},
@@ -372,11 +380,11 @@ $(function () {
 					}
 
 					if (tax_type == 'on total' && (data.tax_rate != '' && data.tax_rate != "0")) {
-						$(".tax-sign").text("+ $");
+						$(".tax-sign").text("+ ₹");
 					} else if (tax_type == 'deducted' && (data.tax_rate != '' && data.tax_rate != "0")) {
-						$(".tax-sign").html("- $");
+						$(".tax-sign").html("- ₹");
 					} else {
-						$(".tax-sign").text("+ $");
+						$(".tax-sign").text("+ ₹");
 					}
 
 					$(".discount_rate_sec, .total_discount_preview, .total_discount_preview_per_item, .total_discount_text, .total_discount_sec, .total_discount_per_item_sec").removeClass('d-none');
@@ -535,8 +543,8 @@ $(function () {
 			var paddedCounter = padWithZeros(invoiceCounter, 4);
 
 			// Set the invoice number and update the counter for the next form
-			$("#from_number").val("INV" + paddedCounter);
-			$(".from_number").text("INV" + paddedCounter);
+			$("#from_number").val("GST - " + paddedCounter);
+			$(".from_number").text("GST - " + paddedCounter);
 
 			// Update other elements as needed
 			$(".from_date").text($("input[name='from_date']").val());
@@ -862,25 +870,29 @@ $(function () {
 		calcTotal();
 	});
 
-	$(document).on("change", "#tax_rate", function () {
+	$(document).on("keyup", "#cgst_rate, #sgst_rate", function () {
 		$('.save_draft').prop('disabled', false);
-		var taxRate = $(this).val();
+		var taxRate = $("#tax_rate").val();
+		var sgstRate = $("#sgst_rate").val();
+		var cgstRate = $("#cgst_rate").val();
 		if (taxRate == null || taxRate == '') {
-			$(this).val("0.00");
+			$("#tax_rate").val("0.00");
 		} else {
-			$(this).val(taxRate);
+			$("#tax_rate").val(taxRate);
 		}
 		var taxType = $("#tax_type").val();
 
 		if (taxType == "deducted" || taxType == "on total") {
 			$(".total_tax").closest(".total_tax_div").find('.invoice_summary-label').text('Tax (' + taxRate + '%)');
+			$(".cgst_tax").closest(".cgst_tax_div").find(".invoice_summary-label").text('CGST  (' + cgstRate + '%)');
+			$(".sgst_tax").closest(".sgst_tax_div").find('.invoice_summary-label').text('UTGST/SGST (' + sgstRate + '%)');
 			$(".total_tax_preview").text('Tax (' + taxRate + '%)');
 		}
 
 		if (taxRate == '0') {
-			$(".tax-sign").text("+ $");
+			$(".tax-sign").text("+ ₹");
 		} else if (taxType == "deducted" && (taxRate !== "0.00" || taxRate != '')) {
-			$(".tax-sign").text("- $")
+			$(".tax-sign").text("- ₹")
 		}
 		calcTotal();
 	});
@@ -934,11 +946,11 @@ $(function () {
 		}
 
 		if (val == 'on total' && (taxRate != '' && taxRate != "0")) {
-			$(".tax-sign").text("+ $");
+			$(".tax-sign").text("+ ₹");
 		} else if (val == 'deducted' && (taxRate != '' && taxRate != "0")) {
-			$(".tax-sign").html("- $");
+			$(".tax-sign").html("- ₹");
 		} else {
-			$(".tax-sign").text("+ $");
+			$(".tax-sign").text("+ ₹");
 		}
 
 		calcTotal();
