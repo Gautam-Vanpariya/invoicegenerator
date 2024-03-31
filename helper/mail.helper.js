@@ -20,7 +20,7 @@ module.exports = {
     try {
       const mailnOptions = {
         from: {
-          name: 'Online Bill Generator',
+          name: 'Bhavy Computer Invoice Generator',
           address: process.env.EMAIL_USER
         },
         to: data.email,

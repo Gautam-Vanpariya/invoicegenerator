@@ -33,8 +33,8 @@ router.post('/invoice/calculate', GENERAL_API.invoiceCalculate);
 // ========================================== [SINGLE PAGE REQUEST] ================================= //
 router.get('/', async(req, res) => {
     res.locals = {
-        title: "Online Bill Generator - Paystub, Utility Bills, W2 form, 1099 MISC, & Invoice Generator",
-        metaDescription: 'Effortlessly create and preview your bills online for free, without any sign-up required. Generate professional PDF bills that can be easily sent and downloaded. Get a free consultation for your billing needs today!',
+        title: "Bhavy Computer | Invoicing Software",
+        metaDescription: '',
         url: process.env.HOST+"/",
         loggedInUser: req.loggedInUser,
         noindex : app.get("env") !== "production"? true : false,
@@ -49,8 +49,8 @@ router.get('/invoice-generator' , async(req, res) => {
      let companyList = await COMPANYMODEL.find({isDeleted : false}).select('-_id -createdAt -updatedAt -__v').lean();
 
     res.locals = {
-        title: "Online Invoice Generator | Create, Customize, Free & Send Instantly",
-        metaDescription: 'Easily create and customize invoices with our online invoice generator. Streamline your billing process, add your logo, and send professional invoices in a matter of minutes.',
+        title: "Bhavy Computer | Invoicing Software",
+        metaDescription: '',
         url: process.env.HOST+'/invoice-generator/',
         loggedInUser: req.loggedInUser,
         noindex : app.get("env") !== "production"? true : false,
@@ -63,7 +63,7 @@ router.get('/invoice-generator' , async(req, res) => {
 router.get('/faq' , (req, res) => {
     res.locals = {
         title: "FAQ - Get Answers About Our Services",
-        metaDescription: "Find answers to frequently asked questions about our online bill generator. Discover how to generate, customize, and send bills effortlessly. Get the information you need quickly and easily.",
+        metaDescription: "Find answers to frequently asked questions about our online Software. Discover how to generate, customize, and send bills effortlessly. Get the information you need quickly and easily.",
         url: process.env.HOST+'/faq/',
         loggedInUser: req.loggedInUser,
         noindex : app.get("env") !== "production"? true : false,

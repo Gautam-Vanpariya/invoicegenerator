@@ -1,6 +1,7 @@
 const ejs = require("ejs");
 const path = require("path");
 const pdf = require('html-pdf');
+const puppeteer = require('puppeteer');
 
 const db = require("../../models/index");
 const USERMODEL = db.user;
@@ -86,19 +87,13 @@ module.exports = {
 			let userData;
 			try {
 
-				// PDF options
-				const pdfOptions = {
-				};
-
 				// Convert HTML to PDF
-				pdf.create(renderedHtml, pdfOptions).toFile(outputPath, (err, res) => {
-					if (err) {
-						console.error('Error creating PDF:', err);
-					} else {
-						console.log('PDF created successfully at:', res.filename);
-					}
-				});
-				//return res.status(301).json({ success: false, message: "Something went wrong", error: null, data: null });
+				// await convertHtmlToPdf(outputPath, renderedHtml);
+
+				await generatePDF(html, outputPath)
+				.then(() => console.log('PDF generated successfully'))
+				.catch(error => console.error('Error generating PDF:', error));
+				return res.status(301).json({ success: false, message: "Something went wrong", error: null, data: null });
 
 				// pdf.create is calling async way and we assume it alwasys generate PDF
 				generatePDFFileResponse = {
@@ -160,4 +155,47 @@ function sendMail(user_data, isGenerated, progressData, orderData, updateOrderDa
 			console.error(err);
 		}
 	}
+}
+
+function convertHtmlToPdf(outputPath, renderedHtml) {
+	return new Promise((resolve, reject) => {
+		try {
+
+			// PDF options
+			const pdfOptions = {
+				format: 'A4',
+				height: '297mm',
+				width: '210mm',
+			};
+
+			// Convert HTML to PDF
+			pdf.create(renderedHtml, pdfOptions).toFile(outputPath, (err, result) => {
+				if (err) {
+					console.error('Error creating PDF:', err);
+					reject(err);
+				} else {
+					console.log('PDF created successfully at:', result.filename);
+					resolve(result.filename);
+				}
+			});
+		} catch (error) {
+			console.error('Error creating PDF:', error);
+			reject(error);
+		}
+	});
+}
+function generatePDF(html, outputPath) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            await page.setContent(html);
+            await page.pdf({ path: outputPath, format: 'A4' ,margin: { top: 0, bottom: 0, right: 0, left: 0 },
+			printBackground: true,});
+            await browser.close();
+            resolve();
+        } catch (error) {
+            reject(error);
+        }
+    });
 }

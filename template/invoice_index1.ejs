@@ -11,16 +11,13 @@
 		* {
 			box-sizing: border-box;
 		}
-		tr.no-page-break {
-			page-break-inside: avoid;
-		}
 	</style>
 </head>
 
 <body style='font-family:Poppins,sans-serif;font-style:normal;margin:0; font-size: 12px;'>
 	<div style="display: flex; flex-wrap: wrap;">
 		<div style="flex: 100%;">
-		   <div style="background-color: #fff; border: 1px solid rgba(0, 0, 0, 0.125); border-radius: 0.25rem; padding: 20px;">
+		   <div style="background-color: #fff; border: 1px solid rgba(0, 0, 0, 0.125); border-radius: 0.25rem; padding: 1.25rem;">
 			  <div style="display: flex; justify-content: space-between; align-items: center;">
 				 <img src="https://themesbrand.com/skote/layouts/assets/images/logo-dark.png" alt="logo" style="height: 20px;">
 				 <h4 style="font-size: 1rem;"><%= result.from_number %></h4>
@@ -85,17 +82,17 @@
 					 <% } %> 
 				 </div>
 			  </div>
-			  <div style="margin-top: 0.25rem; margin-bottom: 0.25rem;">
+			  <div style="padding-top: 0.75rem; margin-top: 0.25rem; margin-bottom: 0.25rem;">
 				 <h3 style="font-size: 0.9375rem; font-weight: bold;">Order summary</h3>
 			  </div>
 			  <table style="width: 100%;margin-bottom: 0;color: #212529;border-collapse: collapse;border: 2px solid #dee2e6;">
 				 <thead>
 					<tr>
-					   <th style="padding: 10px;border: 2px solid #dee2e6;text-align: left;">Description</th>
-					   <th style="width: 100px;padding: 10px;border-bottom: 2px solid #dee2e6;text-align: right;">HSN Code</th>
-					   <th style="width: 100px;padding: 10px;border: 2px solid #dee2e6;text-align: right;">Rate</th>
-					   <th style="width: 100px;padding: 10px;border: 2px solid #dee2e6;text-align: right;">Quantity</th>
-					   <th style="width: 150px;padding: 10px;border: 2px solid #dee2e6;text-align: right;">Amount</th>
+					   <th style="padding: 0.75rem;border: 2px solid #dee2e6;text-align: left;">Description</th>
+					   <th style="width: 100px;padding: 0.75rem;border-bottom: 2px solid #dee2e6;text-align: right;">HSN Code</th>
+					   <th style="width: 100px;padding: 0.75rem;border: 2px solid #dee2e6;text-align: right;">Rate</th>
+					   <th style="width: 100px;padding: 0.75rem;border: 2px solid #dee2e6;text-align: right;">Quantity</th>
+					   <th style="width: 150px;padding: 0.75rem;border: 2px solid #dee2e6;text-align: right;">Amount</th>
 					</tr>
 				 </thead>
 				 <tbody>
@@ -107,60 +104,54 @@
 											item_rate=item_data.item_rate; var item_qty=item_data.item_qty; var
 											item_amount=item_data.item_amount; var per_item_tax=item_data.per_item_tax; %>
 					<tr>
-					   <td style="padding:10px;border: 2px solid #dee2e6;"><%= item_description %></td>
-					   <td style="padding:10px;border: 2px solid #dee2e6;text-align: right;"><%= item_hsnCode %></td>
-					   <td style="padding:10px;border: 2px solid #dee2e6;text-align: right;">&#8377;<%= item_rate %></td>
-					   <td style="padding:10px;border: 2px solid #dee2e6;text-align: right;"><%= item_qty %></td>
-					   <td style="padding:10px;border: 2px solid #dee2e6;text-align: right;">&#8377;<%= item_amount %></td>
+					   <td style="padding: 0.75rem;border: 2px solid #dee2e6;"><%= item_description %></td>
+					   <td style="padding: 0.75rem;border: 2px solid #dee2e6;text-align: right;"><%= item_hsnCode %></td>
+					   <td style="padding: 0.75rem;border: 2px solid #dee2e6;text-align: right;">&#8377;<%= item_rate %></td>
+					   <td style="padding: 0.75rem;border: 2px solid #dee2e6;text-align: right;"><%= item_qty %></td>
+					   <td style="padding: 0.75rem;border: 2px solid #dee2e6;text-align: right;">&#8377;<%= item_amount %></td>
 					</tr>
 					<% }) %>
-					<tr class="no-page-break">
-					   <td colspan="4" style="padding:10px; text-align: right;">Sub Total</td>
-					   <td style="padding:10px;text-align: right;">&#8377;<%= result.sub_total; %></td>
+					<tr>
+					   <td colspan="4" style="padding: 0.75rem; text-align: right;">Sub Total</td>
+					   <td style="padding: 0.75rem;text-align: right;">&#8377;<%= result.sub_total; %></td>
 					</tr>
 					<% if(result.tax_type != 'per item' && result.discount_type != "none"){ %>
 					<tr>
 						<% if(result.discount_type == "percent"){ %>
-					   <td colspan="4" style="padding:10px; text-align: right;">Discount (<%= result.discount_rate %>%)</td>
+					   <td colspan="4" style="padding: 0.75rem; text-align: right;">Discount (<%= result.discount_rate %>%)</td>
 					   <% } else { %>
-						<td colspan="4" style="padding:10px; text-align: right;">Discount</td>
+						<td colspan="4" style="padding: 0.75rem; text-align: right;">Discount</td>
 						<% } %>
-					   <td style="padding:10px;text-align: right;">- &#8377;<%= result.total_discount; %></td>
+					   <td style="padding: 0.75rem;text-align: right;">- &#8377;<%= result.total_discount; %></td>
 					</tr>
 					<% } %>
-					
-					<% if(result.cgst_tax != '0.00'){ %>
+	
 					<% if(result.tax_type == 'on total' || result.tax_type == 'deducted' || result.tax_type == 'per item'){ %>
 						<tr>
 							<% if (result.tax_type=="on total" ) { %>
-								<td colspan="4" style="padding:10px; text-align: right;">+ CGST (<%= result.cgst_rate %>%)</td>
-								<td style="padding:10px;text-align: right;">+ &#8377;<%= result.cgst_tax %></td>
+								<td colspan="4" style="padding: 0.75rem; text-align: right;">+ CGST (<%= result.cgst_rate %>%)</td>
+								<td style="padding: 0.75rem;text-align: right;">+ &#8377;<%= result.cgst_tax %></td>
 							<% } else if(result.tax_type == "deducted"){ %>
-								<td colspan="4" style="padding:10px; text-align: right;">- CGST (<%= result.cgst_rate %>%)</td>
-								<td style="padding:10px;text-align: right;">- &#8377;<%= result.cgst_tax %></td>
+								<td colspan="4" style="padding: 0.75rem; text-align: right;">- CGST (<%= result.cgst_rate %>%)</td>
+								<td style="padding: 0.75rem;text-align: right;">- &#8377;<%= result.cgst_tax %></td>
+							<% } %>
+						</tr>
+						<tr>
+							<% if (result.tax_type=="on total" ) { %>
+								<td colspan="4" style="padding: 0.75rem; text-align: right;">+ UGST/SGST (<%= result.sgst_rate %>%)</td>
+								<td style="padding: 0.75rem;text-align: right;">+ &#8377;<%= result.sgst_tax %></td>
+							<% } else if(result.tax_type == "deducted"){ %>
+								<td colspan="4" style="padding: 0.75rem; text-align: right;">- UGST/SGST (<%= result.sgst_rate %>%)</td>
+								<td style="padding: 0.75rem;text-align: right;">- &#8377;<%= result.sgst_tax %></td>
 							<% } %>
 						</tr>
 					 <% } %>
-					 <% } %>
-					 <% if(result.sgst_tax != '0.00'){ %>
-						<% if(result.tax_type == 'on total' || result.tax_type == 'deducted' || result.tax_type == 'per item'){ %>
-							<tr>
-								<% if (result.tax_type=="on total" ) { %>
-									<td colspan="4" style="padding:10px; text-align: right;">+ UGST/SGST (<%= result.sgst_rate %>%)</td>
-									<td style="padding:10px;text-align: right;">+ &#8377;<%= result.sgst_tax %></td>
-								<% } else if(result.tax_type == "deducted"){ %>
-									<td colspan="4" style="padding:10px; text-align: right;">- UGST/SGST (<%= result.sgst_rate %>%)</td>
-									<td style="padding:10px;text-align: right;">- &#8377;<%= result.sgst_tax %></td>
-								<% } %>
-							</tr>
-						 <% } %>
-						 <% } %>
 	
 					<tr style="border: 2px solid #dee2e6;">
-						<td colspan="4" style="padding:10px; text-align: right;">
+						<td colspan="4" style="padding: 0.75rem; text-align: right;">
 							<strong>Total</strong>
 						</td>
-						<td style="padding:10px; text-align: right;">
+						<td style="padding: 0.75rem; text-align: right;">
 							<strong>&#8377;<%= result.total; %></strong>
 						</td>
 					</tr>

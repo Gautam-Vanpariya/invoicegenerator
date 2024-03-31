@@ -1,7 +1,7 @@
-# Bill-Generator
-BILL GENERATOR WEB + API BACKEND.
+# INV-Generator
+Invoice GENERATOR WEB + API BACKEND.
 
-© 2022 Bill Generator.
+© 2022 Invoice Generator.
 
 ### Version info
 node    : v14.18.1

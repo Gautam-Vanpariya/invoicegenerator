@@ -26,7 +26,7 @@ exports.create = async (req, res) => {
 exports.find = async (req, res) => {
 	try {
 		var modelObj = PRODUCTSMODEL;
-		var searchFields = ['title', 'content'];
+		var searchFields = ['product_name'];
 		var conditionQuery = { isDeleted: false };
 		var projectionQuery = '-createdAt -updatedAt -__v';
 		var sortingQuery = { createdAt: -1 };

@@ -25,15 +25,15 @@ exports.isAuth = (roles) => async(req, res, next) => {
     if(req.session && req.session.user && req.session.user.userRole == USERROLE.CUSTOMER) {
       const user = await USERMODEL.findOne({"_id": req.session.user._id, "userRole": USERROLE.CUSTOMER}).select("userRole").lean();
       if (user.userRole === null || (user.userRole && !roles.includes(user.userRole))) {
-        return res.status(401).json({ success: false, message: "Unauthorized: Please login bill generator first.", error: "error: Unauthorized issue"});
+        return res.status(401).json({ success: false, message: "Unauthorized: Please login first.", error: "error: Unauthorized issue"});
       }
       next();
     }else {
-      return res.status(401).json({ success: false, message: "Unauthorized: Please login bill generator first.", error: "error: Unauthorized issue"});
+      return res.status(401).json({ success: false, message: "Unauthorized: Please login first.", error: "error: Unauthorized issue"});
     }
   }catch (err) {
     console.log("CATCH ERROR:: middleware ::fn[isAuth]:::",err);
-    return res.status(401).json({ success: false, message: "Unauthorized: Please login bill generator first.", error: "error: Unauthorized issue"});
+    return res.status(401).json({ success: false, message: "Unauthorized: Please login first.", error: "error: Unauthorized issue"});
    }
 };
 

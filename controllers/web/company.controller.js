@@ -30,7 +30,7 @@ exports.create = async (req, res) => {
 exports.find = async (req, res) => {
 	try {
 		var modelObj = COMPANYMODEL;
-		var searchFields = ['title', 'content'];
+		var searchFields = ['company_name'];
 		var conditionQuery = { isDeleted: false };
 		var projectionQuery = '-createdAt -updatedAt -__v';
 		var sortingQuery = { createdAt: -1 };
