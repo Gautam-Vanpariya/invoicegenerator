@@ -50,6 +50,8 @@ exports.find = async (req, res) => {
 						invoice_total: document_data[key]['last_filled_data']['total'],
 						total_tax: document_data[key]['last_filled_data']['total_tax'],
 						createdAt: new Date(document_data[key]['createdAt']).toLocaleString(),
+						payment_status: document_data[key]['payment_status'],
+						company_name: document_data[key]['last_filled_data']['to_name'],
 					});
 				}
 
@@ -136,6 +138,25 @@ exports.deletedocument = async (req, res) => {
 	}
 	catch (err) {
 		console.log("CATCH :: WEB ::document.controller:: fn[deletedocument]:::>");
+		console.error(err);
+		return res.status(301).json({ success: false, message: "Something went wrong", error: err.message, data: null });
+	}
+};
+exports.paymentStatus = async (req, res) => {
+	try {
+		const payload = req.body;
+
+		const invoiceDetail = await INVOICEMODEL.findOne({"_id": payload.id}).lean();
+
+		if (!invoiceDetail) {
+			return res.status(301).json({ success: false, message: "Invoice Not Found", error: "error: not found issue.", data: null });
+		} else {
+			const updatePaymentStatus = await INVOICEMODEL.findByIdAndUpdate({ "_id": payload.id }, { "$set": { "payment_status": payload.paymentStatus } });
+			return res.status(200).json({ success: true, message: "Payment status updated succesfully", data: updatePaymentStatus, error: null });
+		}
+	}
+	catch (err) {
+		console.log("CATCH :: WEB ::company.controller:: fn[deletecompany]:::>");
 		console.error(err);
 		return res.status(301).json({ success: false, message: "Something went wrong", error: err.message, data: null });
 	}

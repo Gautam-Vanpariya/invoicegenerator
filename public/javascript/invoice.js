@@ -543,8 +543,8 @@ $(function () {
 			var paddedCounter = padWithZeros(invoiceCounter, 4);
 
 			// Set the invoice number and update the counter for the next form
-			$("#from_number").val("GST - " + paddedCounter);
-			$(".from_number").text("GST - " + paddedCounter);
+			$("#from_number").val("INVOICE - " + paddedCounter);
+			$(".from_number").text("INVOICE - " + paddedCounter);
 
 			// Update other elements as needed
 			$(".from_date").text($("input[name='from_date']").val());

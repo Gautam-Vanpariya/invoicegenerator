@@ -16,6 +16,7 @@ router.get('/:id', DOCUMENTS_WEB.getData);
 router.post('/create', DOCUMENTS_WEB.create);
 router.post('/find', DOCUMENTS_WEB.find);
 router.post('/update', DOCUMENTS_WEB.update);
+router.post('/paymentStatus', DOCUMENTS_WEB.paymentStatus);
 router.delete('/delete/:id', DOCUMENTS_WEB.deletedocument);
 
 module.exports = router;

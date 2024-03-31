@@ -15,6 +15,7 @@ const userProgressSchema = new Schema({
     is_Checkout            : { type: Boolean,default: false},
     pdf_path               : { type: String, default: ''},
     pdf_response           : { type: String, default: ''},
+    payment_status         : { type: String, default: 'Unpaid'},
     email_response         : { type: String, enum: [...Object.values(EMAIL_RESPONSE)], default: EMAIL_RESPONSE.PENDING},
     form_name              : { type: String, required: true, enum: [...Object.values(FORMNAME)], default: FORMNAME.UTILITY},
     isDeleted			   : { type: Boolean, default: false }

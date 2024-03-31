@@ -59,9 +59,12 @@
 									<tr>
 										<td>Id</td>
 										<td>Number</td>
+										<td>Company Name</td>
 										<td>Invoice Amount</td>
 										<td>Invoice Tax</td>
-										<td>createdAt</td>
+										<!-- <td>createdAt</td> -->
+										<td>Action</td>
+										<td>Payment Status</td>
 									</tr>
 								</thead>
 								<tbody></tbody>
@@ -243,6 +246,12 @@
 						data: null,
 						defaultContent: "-",
 						render: function (data) {
+							return data.company_name;
+						}
+					}, {
+						data: null,
+						defaultContent: "-",
+						render: function (data) {
 							return data.invoice_total;
 						}
 					}, {
@@ -251,13 +260,40 @@
 						render: function (data) {
 							return data.total_tax;
 						}
-					}, {
+					},
+					// {
+					// 	data: null,
+					// 	defaultContent: "-",
+					// 	render: function (data) {
+					// 		return data.createdAt;
+					// 	}
+					// },
+					{
 						data: null,
 						defaultContent: "-",
-						render: function (data) {
-							return data.createdAt;
+						render: function (data, type, row, meta) {
+							var editHTML = '<center>';
+							editHTML += `<div id= 'payment_status' className='form-check'>
+								<button type="button" id = "paymentStatusPaid" class="btn btn-success btn-sm" value="Paid" data-id="${data._id}">Paid</button>
+								<button type="button" id = "paymentStatusUnpaid" class="btn btn-danger btn-sm" value="Unpaid" data-id="${data._id}">Unpaid</button>
+                    </div>`;
+							return editHTML;
 						}
-					},],
+					},
+					{
+						data: null,
+						defaultContent: "-",
+						render: function (data, type, row, meta) {
+							var editHTML = '<center>';
+							if (row.payment_status === "Paid") {
+								editHTML += `<span class="badge rounded-pill bg-success">Done</span>`;
+							} else {
+								editHTML += `<span class="badge rounded-pill bg-danger">Unpaid</span>`;
+							}
+							return editHTML;
+						}
+					}
+					],
 					fnRowCallback: function (nRow, aData, iDisplayIndex) {
 						var oSettings = companyDataTable.settings()[0];
 						$("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
@@ -345,4 +381,31 @@
 						console.error('Error fetching data:', error);
 					}
 				});
+				$(document).on('click', 'table #paymentStatusUnpaid, table #paymentStatusPaid', function () {
+					var paymentStatus = $(this).val();
+					var id = $(this).data('id');
+
+					var sendingData = {
+						paymentStatus: paymentStatus,
+						id: id
+					}
+
+					$.ajax({
+						url: "/admin/invoice/paymentStatus",
+						method: "POST",
+						data: sendingData,
+						success: function (result) {
+							if (result.success == true) {
+								toastr.success("Payment Status Updated");
+								companyDataTable.ajax.reload(null, false);
+							} else {
+								toastr.error(result.message);
+							}
+						},
+						error: function (err) {
+							toastr.error(err.responseJSON?.message || "something went wrong.");
+						}
+					});
+				});
+
 			</script>

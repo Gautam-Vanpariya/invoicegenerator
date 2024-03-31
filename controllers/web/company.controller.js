@@ -150,3 +150,4 @@ exports.deleteCompany = async (req, res) => {
 		return res.status(301).json({ success: false, message: "Something went wrong", error: err.message, data: null });
 	}
 };
+

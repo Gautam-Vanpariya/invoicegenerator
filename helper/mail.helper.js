@@ -54,8 +54,8 @@ module.exports = {
           address: process.env.EMAIL_USER
         },
         to: data.email,
-        bcc: 'pr1430378@gmail.com',
-        subject: "HERE'S YOUR INVOICE! THANK YOU!",
+        // bcc: '',
+        subject: "Purchase Invoice",
         text: "We want to thank you for your purchase! We hope that you enjoy your documents as much as we have enjoyed generating them for you.",
         attachments: [
           {
