@@ -24,27 +24,16 @@ exports.create = async (req, res) => {
 
 // retrieve and return all users/ retrive and return a single user
 exports.find = async (req, res) => {
+	var payload = req.body;
+	var companyName = payload.company_name;
+
 	try {
 		var modelObj = INVOICEMODEL;
 		var searchFields = ['last_filled_data.from_number'];
-		var conditionQuery = { isDeleted: false };
+		var conditionQuery = { isDeleted: false, payment_status: "Unpaid", "last_filled_data.to_name": companyName };
 		var projectionQuery = '-updatedAt -__v';
 		var sortingQuery = { createdAt: -1 };
 		var populateQuery = [];
-
-		var today = new Date();
-		if (req.body.data_range === 'today') {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // Start of the day
-            conditionQuery.createdAt = { $gte: today }; // Documents created today
-        } else if (req.body.data_range === 'this_month') {
-            const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-            conditionQuery.createdAt = { $gte: startOfMonth }; // Documents created this month
-        } else if (req.body.data_range === 'this_year') {
-            const startOfYear = new Date(today.getFullYear(), 3, 1); // Assuming fiscal year starts from April (index 3)
-            const endOfYear = new Date(today.getFullYear() + 1, 2, 31); // Fiscal year end
-            conditionQuery.createdAt = { $gte: startOfYear, $lte: endOfYear }; // Documents created this fiscal year
-        }
 
 		DATATABLEWEB.fetchDatatableRecords(req.body, modelObj, searchFields, conditionQuery, projectionQuery, sortingQuery, populateQuery, function (err, data) {
 			if (err) {

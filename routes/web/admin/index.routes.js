@@ -34,6 +34,7 @@ router.use("/thankyou", require("./thankyou"));
 router.use("/company", isAdmin([USERROLE.ADMIN]), require('./company.routes'));
 router.use("/products", isAdmin([USERROLE.ADMIN]), require('./products.routes'));
 router.use("/invoice", isAdmin([USERROLE.ADMIN]), require('./invoice.routes'));
+router.use("/ledger", isAdmin([USERROLE.ADMIN]), require('./ledger.routes'));
 
 router.get('/adminInvoiceTotal', async (req, res) => {
     try {
