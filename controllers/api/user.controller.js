@@ -137,6 +137,7 @@ function sendMail(user_data, isGenerated, progressData, orderData, updateOrderDa
 		try {
 			const mailData = {
 				"email": progressData.last_filled_data.to_email,
+				"customerName": progressData.last_filled_data.to_name,
 				"bill_type": updateOrderData.bill_type + '.pdf',
 				"pdf_path": pdfPath,
 				"app_type": app_type

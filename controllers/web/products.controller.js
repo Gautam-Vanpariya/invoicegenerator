@@ -12,6 +12,12 @@ exports.create = async (req, res) => {
 		const validationError = addProductValidation(payload).error;
 		if (validationError) return res.status(300).json({ success: false, message: validationError.message, error: "error: validation issue.", data: null });
 
+		const duplicatHsnCode = await PRODUCTSMODEL.findOne({product_hsn_code: payload.product_hsn_code}).lean();
+
+		if (duplicatHsnCode) {
+			return res.status(300).json({success: false, message: "Hsn Code already used", error: "hsn code error", data: null});
+		}
+
 		const products = new PRODUCTSMODEL(payload);
 		await products.save();
 		return res.status(200).json({ success: true, message: "products created", data: products, error: null });

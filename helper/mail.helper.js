@@ -56,7 +56,24 @@ module.exports = {
         to: data.email,
         // bcc: '',
         subject: "Purchase Invoice",
-        text: "We want to thank you for your purchase! We hope that you enjoy your documents as much as we have enjoyed generating them for you.",
+        text: `Dear ${data.customerName},
+
+        We're overjoyed to reach out to you today and extend our sincerest thanks for choosing Bhavy Computer. It's customers like you who make what we do so rewarding!
+        
+        Your recent purchase from Bhavy Computer means the world to us. We've attached your invoice for easy reference. We hope you find it in perfect order.
+        
+        Your support fuels our passion for providing exceptional products/services and top-notch customer service. We're here for you every step of the way, whether it's answering questions, offering recommendations, or simply sharing in your excitement.
+        
+        Feel free to reach out to us anytime if there's anything we can assist you with. We're always eager to lend a helping hand!
+        
+        Thank you once again for choosing Bhavy Computer. We can't wait to serve you again soon!
+        
+        Warm regards,
+      
+        Mr. Jasmin Baldha
+        CEO - Bhavy Computer
+        Bhilad - 396105
+        +91 9879542139`,
         attachments: [
           {
             filename: `${data.bill_type}`,

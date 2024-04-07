@@ -28,6 +28,11 @@ module.exports = {
 				if (validationError) return res.status(300).json({ success: false, message: validationError.message, error: "error: validation issue.", data: null });
 			}
 
+			const duplicateInvoiceNumber = await USERPROGRESSMODEL.findOne({'last_filled_data.from_number': payload.last_filled_data.from_number}).lean();
+			if (duplicateInvoiceNumber) {
+				return res.status(300).json({success: false, message: "Invoice number already exist", error: "Duplicate invoice found issue", data: null });
+			}
+
 			let userProgressDetails;
 			let previewData;
 			if (payload.progress_number || payload.applicationId) {
