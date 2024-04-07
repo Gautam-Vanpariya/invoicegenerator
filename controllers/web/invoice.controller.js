@@ -26,7 +26,7 @@ exports.create = async (req, res) => {
 exports.find = async (req, res) => {
 	try {
 		var modelObj = INVOICEMODEL;
-		var searchFields = ['last_filled_data.from_number'];
+		var searchFields = ['last_filled_data.from_number', 'last_filled_data.to_name'];
 		var conditionQuery = { isDeleted: false };
 		var projectionQuery = '-updatedAt -__v';
 		var sortingQuery = { createdAt: -1 };
