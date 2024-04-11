@@ -2,6 +2,11 @@ const { addProductValidation, updateProductValidation } = require("../../validat
 const DATATABLEWEB = require("../../helper/dataTable");
 
 const db = require("../../models");
+
+
+const path = require("path");
+let fs = require("fs");
+
 const INVOICEMODEL = db.userProgress;
 
 
@@ -145,7 +150,18 @@ exports.getData = async (req, res) => {
 exports.deletedocument = async (req, res) => {
 	try {
 		const documentId = req.params.id;
-		let currentdocument = await INVOICEMODEL.findOne({ "_id": documentId }).lean();
+		let currentdocument = await INVOICEMODEL.findOne({ "_id": documentId }).select("_id last_filled_data pdf_path").lean();
+
+		var pdf_path = currentdocument.pdf_path;
+
+		var filePath = path.join(__dirname, `../..`+pdf_path);
+
+		fs.unlink(filePath, function (err) {
+			if (err) throw err;
+			console.log('File deleted!');
+		});
+
+
 		if (!currentdocument) return res.status(300).json({ success: false, message: "document not found.", error: "error: not found issue.", data: null });
 		const deleteReocord = await INVOICEMODEL.findByIdAndUpdate({ "_id": documentId }, { "$set": { "isDeleted": true } });
 		return res.status(200).json({ success: true, message: "Document Deleted Successfully.", data: deleteReocord, error: null });

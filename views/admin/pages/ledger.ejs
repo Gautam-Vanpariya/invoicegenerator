@@ -83,6 +83,13 @@
 							extend: 'pdfHtml5',
 							filename: function () {
 								return $("#company_name").val() + '_ledger_data'; // Dynamically set filename
+							},
+							customize: function (doc) {
+								// Modify the document content here
+								// Remove unwanted columns (1st column index is 0)
+								doc.content[1].table.body.forEach(function (row) {
+									row.splice(0, 1); // Remove first column
+								});
 							}
 						}
 					],
