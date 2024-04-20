@@ -12,7 +12,8 @@ exports.savedraft_login_validate = data => {
     lastSavedStep         : Joi.any(),
     last_filled_data      : Joi.object().required().not({}),
     form_name             : Joi.string().required(),
-    user_type             : Joi.string().optional().allow(null, "")
+    user_type             : Joi.string().optional().allow(null, ""),
+    is_edited             : Joi.string().optional().allow(null, "")
   });
   return schema.validate(data);
 };
@@ -25,7 +26,8 @@ exports.savedraft_guest_validate = data => {
     lastSavedStep         : Joi.any(),
     last_filled_data      : Joi.object().required().not({}),
     form_name             : Joi.string().required(),
-    user_type             : Joi.string().optional().allow(null, "")
+    user_type             : Joi.string().optional().allow(null, ""),
+    is_edited             : Joi.string().optional().allow(null, "")
   });
   return schema.validate(data);
 };

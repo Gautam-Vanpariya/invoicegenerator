@@ -28,9 +28,11 @@ module.exports = {
 				if (validationError) return res.status(300).json({ success: false, message: validationError.message, error: "error: validation issue.", data: null });
 			}
 
-			const duplicateInvoiceNumber = await USERPROGRESSMODEL.findOne({'last_filled_data.from_number': payload.last_filled_data.from_number}).lean();
-			if (duplicateInvoiceNumber) {
-				return res.status(300).json({success: false, message: "Invoice number already exist", error: "Duplicate invoice found issue", data: null });
+			if (payload.is_edited == "No") {
+				const duplicateInvoiceNumber = await USERPROGRESSMODEL.findOne({'last_filled_data.from_number': payload.last_filled_data.from_number}).lean();
+				if (duplicateInvoiceNumber) {
+					return res.status(300).json({success: false, message: "Invoice number already exist", error: "Duplicate invoice found issue", data: null });
+				}
 			}
 
 			let userProgressDetails;
@@ -158,34 +160,16 @@ module.exports = {
 	retrieveUserProgess: async (req, res) => {
 		try {
 			const payload = req.body;
-			const loggedInUser = req.loggedInUser;
 
-			if (payload.applicationId) {
-				let userProgress = await USERPROGRESSMODEL.findOne({ "_id": payload.applicationId, "form_name": payload.form_name }).lean();
-				if (userProgress) {
-					if (userProgress.is_Checkout === true) {
-						return res.status(300).json({ success: false, message: "Your draft as already checkout. Please create new darft.", data: null, error: "error: conditional issue" });
-					}
-					return res.status(200).json({ success: true, message: "Data retrieve successfully.", data: userProgress, error: null });
-				} else {
-					return res.status(300).json({ success: false, message: "Draft data not exist.", data: null, error: null });
-				}
+			// Validate
+			const validationError = retrieve_userprogress_validate(payload).error;
+			if (validationError) return res.status(300).json({ success: false, message: validationError.message, error: "error: validation issue.", data: null });
+
+			let userProgress = await USERPROGRESSMODEL.findOne({ "last_filled_data.from_number": payload.progress_number, "form_name": payload.form_name }).lean();
+			if (userProgress) {
+				return res.status(200).json({ success: true, message: "Data retrieve successfully.", data: userProgress, error: null });
 			} else {
-
-				// Validate
-				const validationError = retrieve_userprogress_validate(payload).error;
-				if (validationError) return res.status(300).json({ success: false, message: validationError.message, error: "error: validation issue.", data: null });
-
-				let userProgress = await USERPROGRESSMODEL.findOne({ "progress_number": payload.progress_number, "form_name": payload.form_name }).lean();
-				if (userProgress) {
-					if ((loggedInUser && loggedInUser.email == "bhavesh.marquee@gmail.com") || !userProgress.is_Checkout) {
-						return res.status(200).json({ success: true, message: "Data retrieve successfully.", data: userProgress, error: null });
-					} else {
-						return res.status(300).json({ success: false, message: "Your draft as already checkout. Please create new darft.", data: null, error: "error: conditional issue" });
-					}
-				} else {
-					return res.status(300).json({ success: false, message: "Draft data not exist.", data: null, error: null });
-				}
+				return res.status(300).json({ success: false, message: "Draft data not exist.", data: null, error: null });
 			}
 		}
 		catch (err) {

@@ -7,41 +7,7 @@
           <div class="wrapper h-100 d-flex flex-column">
             <div class="thank_left d-flex align-items-center justify-content-center flex-column">
               <h2 class='font-weight-bold'>Thank You!</h2>
-              <h6>For Using Our Website</h6>
-            </div>
-            <div class="add_review d-flex align-items-center justify-content-center py-5 flex-grow-1 authFrom_content">
-              <form id="add_review_form" name="add_review_form" autocomplete="off">
-                <div class="row justify-content-center">
-                  <div class="col-lg-10 col-md-11 col-sm-10">
-                    <div class="row g-4">
-                      <div class="col-12">
-                        <h4 class="mb-0">Write a Review</h4>
-                      </div>
-                      <div class="col-lg-6 error__pblock">
-                        <div class="input-group">
-                          <input type="text" name="fname" id="fname" class="form-control form_control custom__error" placeholder="First Name" />
-                        </div>
-                        <div class="error_label"></div>
-                      </div>
-                      <div class="col-lg-6 error__pblock">
-                        <div class="input-group">
-                          <input type="text" name="lname" id="lname" class="form-control form_control custom__error" placeholder="Last Name" />
-                        </div>
-                        <div class="error_label"></div>
-                      </div>
-                      <div class="col-12 error__pblock">
-                        <div class="input-group">
-                          <textarea name="review" id="review" rows="4" class="form-control form_control custom__error" placeholder="Your Review"></textarea>
-                        </div>
-                        <div class="error_label"></div>
-                      </div>
-                      <div class="col-12">
-                        <button type="submit" id="add_review_btn" class="btn primary-btn w-100 text-uppercase">Submit</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
+              <h6>Invoice Generated Successfully</h6>
             </div>
           </div>
         </div>
@@ -134,58 +100,4 @@
             browserBackButton();
 
           })
-
-          // Review
-          $('#add_review_form').validate({
-              rules: {
-                  fname: {
-                      required: true,
-                  },
-                  lname: {
-                      required: true,
-                  },
-                  review: {
-                      required: true,
-                  }
-              },
-              errorPlacement: function (error, element) {
-                  if (element.hasClass("custom__error")) {
-                      $(element).closest('.error__pblock').find(".error_label").append(error);
-                  } else {
-                      error.insertAfter(element);
-                  }
-              }
-          });
-
-          $('#add_review_form').submit(function (e) {
-              e.preventDefault();
-              if ($('#add_review_form').valid()) {
-                  $("#add_review_btn").attr("disabled", true);
-                  const sendingData = {
-                      "fname": $("#fname").val().trim(),
-                      "lname" : $("#lname").val().trim(),
-                      "content" : $("#review").val().trim(),
-                  };
-                  $.ajax({
-                      url: "/saveReview",
-                      method: "POST",
-                      data: sendingData,
-                      success: function (result) {
-                          $("#add_review_btn").attr("disabled", false);
-                          if (result.success == true) {
-                              toastr.success(result.message);
-                              $('#add_review_form')[0].reset();
-                          } else {
-                              toastr.error(result.message);
-                          }
-                      },
-                      error: function (err) {
-                          $("#add_review_btn").attr("disabled", false);
-                          toastr.error(err.responseJSON?.message || "something went wrong.");
-                      }
-                  });
-              } else {
-                  $("#add_review_btn").attr("disabled", false);
-              }
-          });
         </script>

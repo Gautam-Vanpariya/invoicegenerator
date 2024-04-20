@@ -175,8 +175,8 @@ module.exports = {
 
             outputInvoice['amount'] = amount;
             outputInvoice['sub_total'] = numberWithCommas(roundoff(parseFloat(subTotal).toFixed(2)));
-            outputInvoice['total'] = numberWithCommas(roundoff(parseFloat(total).toFixed(2)));
-            outputInvoice['balance_due'] = numberWithCommas(roundoff(parseFloat(balance_due).toFixed(2)));
+            outputInvoice['total'] = numberWithCommas(Math.floor(parseFloat(total).toFixed(2)));
+            outputInvoice['balance_due'] = numberWithCommas(Math.floor(parseFloat(balance_due).toFixed(2)));
 
             return res.status(200).json({ success: true, message: "Tax calculate." , data: outputInvoice, error: null});
         } catch (err) {

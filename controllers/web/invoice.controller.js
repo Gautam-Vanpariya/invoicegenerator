@@ -39,17 +39,17 @@ exports.find = async (req, res) => {
 
 		var today = new Date();
 		if (req.body.data_range === 'today') {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // Start of the day
-            conditionQuery.createdAt = { $gte: today }; // Documents created today
-        } else if (req.body.data_range === 'this_month') {
-            const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-            conditionQuery.createdAt = { $gte: startOfMonth }; // Documents created this month
-        } else if (req.body.data_range === 'this_year') {
-            const startOfYear = new Date(today.getFullYear(), 3, 1); // Assuming fiscal year starts from April (index 3)
-            const endOfYear = new Date(today.getFullYear() + 1, 2, 31); // Fiscal year end
-            conditionQuery.createdAt = { $gte: startOfYear, $lte: endOfYear }; // Documents created this fiscal year
-        }
+			const today = new Date();
+			today.setHours(0, 0, 0, 0); // Start of the day
+			conditionQuery.createdAt = { $gte: today }; // Documents created today
+		} else if (req.body.data_range === 'this_month') {
+			const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+			conditionQuery.createdAt = { $gte: startOfMonth }; // Documents created this month
+		} else if (req.body.data_range === 'this_year') {
+			const startOfYear = new Date(today.getFullYear(), 3, 1); // Assuming fiscal year starts from April (index 3)
+			const endOfYear = new Date(today.getFullYear() + 1, 2, 31); // Fiscal year end
+			conditionQuery.createdAt = { $gte: startOfYear, $lte: endOfYear }; // Documents created this fiscal year
+		}
 
 		DATATABLEWEB.fetchDatatableRecords(req.body, modelObj, searchFields, conditionQuery, projectionQuery, sortingQuery, populateQuery, function (err, data) {
 			if (err) {
@@ -154,13 +154,14 @@ exports.deletedocument = async (req, res) => {
 
 		var pdf_path = currentdocument.pdf_path;
 
-		var filePath = path.join(__dirname, `../..`+pdf_path);
+		var filePath = path.join(__dirname, `../..` + pdf_path);
 
-		fs.unlink(filePath, function (err) {
-			if (err) throw err;
-			console.log('File deleted!');
-		});
-
+		if (fs.existsSync(filePath)) {
+			fs.unlink(filePath, function (err) {
+				if (err) throw err;
+				console.log('File deleted!');
+			});
+		}
 
 		if (!currentdocument) return res.status(300).json({ success: false, message: "document not found.", error: "error: not found issue.", data: null });
 		const deleteReocord = await INVOICEMODEL.findByIdAndUpdate({ "_id": documentId }, { "$set": { "isDeleted": true } });
@@ -176,7 +177,7 @@ exports.paymentStatus = async (req, res) => {
 	try {
 		const payload = req.body;
 
-		const invoiceDetail = await INVOICEMODEL.findOne({"_id": payload.id}).lean();
+		const invoiceDetail = await INVOICEMODEL.findOne({ "_id": payload.id }).lean();
 
 		if (!invoiceDetail) {
 			return res.status(301).json({ success: false, message: "Invoice Not Found", error: "error: not found issue.", data: null });

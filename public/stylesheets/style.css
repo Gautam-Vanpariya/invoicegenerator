@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 :root {
-  --bs-yellow: #F0C000; /* Brand color */
+  --bs-yellow: #678ef8; /* Brand color */
   --bs-blue-1: #0F1B2D; /* page content color */
   --bs-lightBlue-1: #F7FAFF;
   --bs-lightBlue-2: #DDE4FF;
@@ -793,7 +793,7 @@ display: none;
   border-radius: 0;
   background-color: #f4f4f4 !important;
   border: 1px solid #f4f4f4;
-  padding: 12px 19px;
+  padding: 5px 5px;
   height: auto;
 }
 .new_layout .form_control {

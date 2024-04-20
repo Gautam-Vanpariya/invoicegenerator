@@ -135,45 +135,12 @@ $(function () {
 
 	/* Save Logo Function */
 	function saveInvoiceLogo() {
-		var file = document.getElementById("upload").files[0];
-
-		if (file) {
-			const sendingData = new FormData();
-			sendingData.set("type", "IMAGE");
-			sendingData.set("form_name", invoiceForm);
-			sendingData.set("file", file);
-			$.ajax({
-				url: "/upload/formLogo",
-				method: "POST",
-				data: sendingData,
-				processData: false,
-				contentType: false,
-				success: function (result) {
-					$("#show_loader").fadeIn();
-					if (result.success == true) {
-						$("#logo_path").val(result.data.publicPath);
-						if ($('#guest_email_hidden').val()) {
-							var guest_email = $('#guest_email_hidden').val();
-						} else {
-							var guest_email = $("#check_email_guest_user").val()
-						}
-						saveData(guest_email);
-					} else {
-						toastr.error(result.message);
-					}
-				},
-				error: function (err) {
-					toastr.error(err.responseJSON?.message || "something went wrong.");
-				}
-			});
+		if ($('#guest_email_hidden').val()) {
+			var guest_email = $('#guest_email_hidden').val();
 		} else {
-			if ($('#guest_email_hidden').val()) {
-				var guest_email = $('#guest_email_hidden').val();
-			} else {
-				var guest_email = $("#check_email_guest_user").val()
-			}
-			saveData(guest_email);
+			var guest_email = $("#check_email_guest_user").val()
 		}
+		saveData(guest_email);
 	}
 
 	/* Save Data Function */
@@ -202,7 +169,6 @@ $(function () {
 				["per_item_tax"]: per_item_tax
 			}
 		});
-
 		var body = {
 			last_filled_data: {
 				logo_path: $("#logo_path").val(),
@@ -247,6 +213,7 @@ $(function () {
 				items: obj,
 			},
 			progress_number: $('#old_progress_number').val(),
+			is_edited : $("#is_edited").val(),
 			form_name: invoiceForm
 		};
 
@@ -262,13 +229,16 @@ $(function () {
 				...body
 			}
 		}
-
+		debugger;
 		$.ajax({
 			url: '/userProgress/save',
 			method: 'POST',
 			data: data,
 			success: function (response) {
 				if (response.success == true) {
+					invoiceCounter++
+					// Save the updated counter to the server
+					saveCounterToServer(invoiceCounter);
 					formSubmit = true;
 					toastr.success(response.message);
 					$('#progress_id').val(response.data._id);
@@ -320,6 +290,7 @@ $(function () {
 				$('.save_draft').prop('disabled', true);
 				if (response.success == true) {
 					toastr.success(response.message);
+					$("#is_edited").val("Yes");
 					var data = response.data.last_filled_data;
 					var items = data.items;
 					var tax_type = data.tax_type;
@@ -345,13 +316,13 @@ $(function () {
 						}
 						$("#items_" + total_item).find('.input-group__error span').remove();
 						$("#" + index).find('.row_summary select').val(item.item_description);
-						$("#" + index).find('.row_summary textarea').val(item.item_additional_details);
 						$("#" + index).find('.row_rate input').attr("id", "item_qty" + total_item).val(item.item_rate);
 						$("#" + index).find('.row_quantity input').attr("id", "item_rate" + total_item).val(item.item_qty);
 						$("#" + index).find('.per_item_tax  input').attr("id", "item_tax" + total_item).val(item.per_item_tax);
 						$("#" + index).find('.row_tax input[type="checkbox"]').val(item.item_tax);
 						$("#" + index).find('.row_amount input').val(item.item_amount);
 						$("#" + index).find('.row_amount .amount').text(item.item_amount);
+						$("#" + index).find('.row_hsnCode  input').val(item.item_hsnCode);
 						if (item.item_tax !== '') {
 							$("#" + index).find('.row_tax input[type="checkbox"]').attr(item.item_tax, true);
 						} else {
@@ -364,18 +335,16 @@ $(function () {
 					$(".per_item_tax").css("display", "none");
 					if (tax_type == 'on total' || tax_type == 'deducted') {
 						$("#tax_rate").closest('.tax_rate_div').removeClass('d-none');
+						$("#sgst_rate").closest('.sgst_rate_div').removeClass('d-none');
+						$("#cgst_rate").closest('.cgst_rate_div').removeClass('d-none');
 						$(".total_tax_div").find('.invoice_summary-label').text('Tax (0%)');
 						$(".total_tax_preview").text('Tax (' + taxRate + '%)');
 						$(".total_tax").closest(".total_tax_div").find('.invoice_summary-label').text('Tax (' + taxRate + '%)');
-					} else if (tax_type == 'per item') {
-						$("#tax_rate").closest('.tax_rate_div').addClass('d-none');
-						$(".total_tax_div").find('.invoice_summary-label').text('Tax');
-						$(".total_tax_preview").text('Tax');
-						$(".per-item-tax ").removeClass('d-none');
-						$(".per_item_tax").css("display", "inline-block");
 					} else {
 						$(".total_tax_div, .total_tax_preview, .total_tax_text").addClass('d-none');
 						$("#tax_rate").closest('.tax_rate_div').addClass('d-none');
+						$("#sgst_rate").closest('.sgst_rate_div').addClass('d-none');
+						$("#cgst_rate").closest('.cgst_rate_div').addClass('d-none');
 						$(".total_tax_th, .row_tax").addClass('d-none');
 					}
 
@@ -525,6 +494,7 @@ $(function () {
 		});
 	}
 
+	let invoiceCounter;
 	async function loadEvent() {
 		try {
 			// Fetch the current counter from the server
@@ -543,17 +513,9 @@ $(function () {
 			var paddedCounter = padWithZeros(invoiceCounter, 4);
 
 			// Set the invoice number and update the counter for the next form
-			$("#from_number").val("INVOICE - " + paddedCounter);
-			$(".from_number").text("INVOICE - " + paddedCounter);
+			$("#from_number").val("INVOICE-" + paddedCounter);
+			$(".from_number").text("INVOICE-" + paddedCounter);
 
-			// Update other elements as needed
-			$(".from_date").text($("input[name='from_date']").val());
-
-			// Increment the counter for the next form
-			invoiceCounter++;
-
-			// Save the updated counter to the server
-			await saveCounterToServer(invoiceCounter);
 		} catch (error) {
 			console.error('Error:', error);
 		}
@@ -787,7 +749,6 @@ $(function () {
 	})
 
 	$(document).on("change", "#from_name, #from_email, #from_street_address_1, #from_street_address_2, #from_city, #from_state, #from_zip_code, #from_phone, #business_number", function () {
-		debugger;
 		var val = $(this).val();
 		var name = $(this).attr("name");
 		var text = $(this).attr("data-val");
@@ -923,17 +884,15 @@ $(function () {
 		$(".per_item_tax").css("display", "none");
 		if (val == 'on total' || val == 'deducted') {
 			$("#tax_rate").closest('.tax_rate_div').removeClass('d-none');
+			$("#sgst_rate").closest('.sgst_rate_div').removeClass('d-none');
+			$("#cgst_rate").closest('.cgst_rate_div').removeClass('d-none');
 			$(".total_tax_th, .row_tax").removeClass('d-none');
 			$(".total_tax").closest(".total_tax_div").find('.invoice_summary-label').text('Tax (' + tax + '%)');
-		} else if (val == 'per item') {
-			$("#tax_rate").closest('.tax_rate_div').addClass('d-none');
-			$(".total_tax_div").find('.invoice_summary-label').text('Tax');
-			$(".total_tax_preview").text('Tax');
-			$(".total_tax_th, .row_tax, .per-item-tax, .per_item_preview").removeClass('d-none');
-			$(".per_item_tax").css("display", "inline-block");
 		} else {
 			$(".total_tax_div, .total_tax_preview, .total_tax_text").addClass('d-none');
 			$("#tax_rate").closest('.tax_rate_div').addClass('d-none');
+			$("#sgst_rate").closest('.sgst_rate_div').addClass('d-none');
+			$("#cgst_rate").closest('.cgst_rate_div').addClass('d-none');
 			$(".total_tax_th, .row_tax").addClass('d-none');
 		}
 
@@ -1010,10 +969,6 @@ $(function () {
 			}
 					</select>
 				</div>
-				<div class="p-0 mb-1 position-relative">
-					<label class="form-label floating-label">Additional details</label>
-					<textarea class="form-control form_control border-blue" rows="4" name="item_additional[]"></textarea>
-				</div> 
 			</td>
 			<td class="invoice_items invoice_row_items row_hsnCode input-filled required-item">
 				<div class="p-0 mb-1 position-relative input-group__error">
@@ -1081,7 +1036,6 @@ $(function () {
 			method: 'POST',
 			data: sendingData,
 			success: function (data) {
-				debugger;
 				$('#item_hsnCode' + item).val(data.data.product_hsn_code);
 			},
 			error: function (error) {
@@ -1195,7 +1149,7 @@ $(function () {
 			});
 		});
 
-		if ($("#invoice_form").valid()) {
+		if ($("#invoice_form").validate()) {
 			var guest_email = $('#guest_email_hidden').val();
 			if ($("#user_id").val() === undefined || $("#user_id").val() === '') {
 				if ($("#guest_email_hidden").val() === '') {
@@ -1261,7 +1215,7 @@ $(function () {
 			});
 		});
 
-		if ($("#invoice_form").valid()) {
+		if ($("#invoice_form").validate()) {
 			var guest_email = $("#guest_email_hidden").val();
 			if (formSubmit === true) {
 				orderSummary();
@@ -1327,7 +1281,7 @@ $(function () {
 			});
 		});
 
-		if ($("#invoice_form").valid()) {
+		if ($("#invoice_form").validate()) {
 			$(".invoice_edit_section").fadeOut(0);
 			$(".invoice_preview_section").fadeIn(0);
 			$(this).addClass('primary-btn');
