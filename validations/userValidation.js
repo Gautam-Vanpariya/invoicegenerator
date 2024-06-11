@@ -1,4 +1,4 @@
-var Joi = require("@hapi/joi");
+var Joi = require("joi");
 
 //Validate Login User
 exports.login_validate = data => {

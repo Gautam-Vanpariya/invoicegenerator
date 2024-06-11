@@ -1,4 +1,4 @@
-var Joi = require("@hapi/joi");
+var Joi = require("joi");
 const { FORMNAME, DISCOUNT_TYPE, TAX_TYPE } = require('../utils/enum');
 
 exports.upload_form_logo_validate = data => {

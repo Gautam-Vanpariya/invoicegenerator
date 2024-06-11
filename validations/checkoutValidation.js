@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const JoiObjectId = require('../utils/joi-objectid')(Joi);
 
 exports.order_summary_validate = data => {

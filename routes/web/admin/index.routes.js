@@ -28,8 +28,6 @@ router.get('/login', (req, res) => {
 // [ROOT]
 router.use("/auth", require("./login"));
 router.use('/users', isAdmin([USERROLE.ADMIN]), require('./users'));
-router.use('/transaction', isAdmin([USERROLE.ADMIN]), require('./transaction'));
-router.use("/preview", require("./preview"));
 router.use("/thankyou", require("./thankyou"));
 router.use("/company", isAdmin([USERROLE.ADMIN]), require('./company.routes'));
 router.use("/products", isAdmin([USERROLE.ADMIN]), require('./products.routes'));
